@@ -55,9 +55,19 @@ public class CarController {
         return ResponseEntity.ok(cars);
     }
 
+    @GetMapping("/users/{userId}/cars/{carId}")
+    public ResponseEntity<CarModel> getCarByUserIdAndCarId(@PathVariable Long userId, @PathVariable Long carId) {
+        Optional<UserModel> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
+        Optional<CarModel> carOptional = carRepository.findByUserAndIdCar(userOptional.get(), carId);
+        if (carOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
-
-
+        return ResponseEntity.ok(carOptional.get());
+    }
 }
 

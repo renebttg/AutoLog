@@ -2,6 +2,7 @@ package com.example.autolog.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "TB_CARS")
+@JsonPropertyOrder({"idCar", "ownerName", "carBrand", "model", "color", "licencePlate", "vin", "maintenanceHistory"})
 public class CarModel {
     private static final long serialVersionUID = 1l;
 
