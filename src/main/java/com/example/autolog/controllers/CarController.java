@@ -69,5 +69,26 @@ public class CarController {
 
         return ResponseEntity.ok(carOptional.get());
     }
+
+    @PutMapping("/users/{userId}/cars/{carId}")
+    public ResponseEntity<CarModel> updateCar(@PathVariable Long userId, @PathVariable Long carId, @RequestBody @Valid CarRecordDto carRecordDto) {
+        Optional<UserModel> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Optional<CarModel> carOptional = carRepository.findByUserAndIdCar(userOptional.get(), carId);
+        if (carOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        CarModel existingCar = carOptional.get();
+        BeanUtils.copyProperties(carRecordDto, existingCar, "idCar", "user", "maintenanceHistory");
+
+        CarModel updatedCar = carRepository.save(existingCar);
+
+        return ResponseEntity.ok(updatedCar);
+    }
+
 }
 

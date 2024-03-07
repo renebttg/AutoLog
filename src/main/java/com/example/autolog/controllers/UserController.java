@@ -37,31 +37,31 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity<Object> getOneUser(@PathVariable(value = "id") long id) {
-        Optional<UserModel> user0 = userRepository.findById(id);
-        if (user0.isEmpty()) {
+        Optional<UserModel> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(user0.get());
+        return ResponseEntity.status(HttpStatus.OK).body(userOptional.get());
     }
 
     @PutMapping("/users/{id}")
     public ResponseEntity<Object> updateUser(@PathVariable(value = "id") long id, @RequestBody @Valid UserRecordDto userRecordDto) {
-        Optional<UserModel> user0 = userRepository.findById(id);
-        if (user0.isEmpty()) {
+        Optional<UserModel> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
         }
-        var userModel = user0.get();
+        var userModel = userOptional.get();
         BeanUtils.copyProperties(userRecordDto, userModel);
         return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(userModel));
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") long id){
-        Optional<UserModel> user0 = userRepository.findById(id);
-        if(user0.isEmpty()){
+        Optional<UserModel> userOptional = userRepository.findById(id);
+        if(userOptional.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
         }
-        userRepository.delete(user0.get());
+        userRepository.delete(userOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("User deleted sucessfuly");
     }
 
