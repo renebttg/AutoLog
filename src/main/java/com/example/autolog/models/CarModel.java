@@ -2,10 +2,8 @@ package com.example.autolog.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -14,7 +12,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "TB_CARS")
-@JsonPropertyOrder({"idCar", "ownerName", "carBrand", "model", "color", "licencePlate", "vin", "maintenanceHistory"})
 public class CarModel {
     private static final long serialVersionUID = 1l;
 
@@ -36,7 +33,7 @@ public class CarModel {
     private String licencePlate;
 
     @Column(unique = true)
-    private String VIN;
+    private String chassisNumber;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -98,12 +95,12 @@ public class CarModel {
         this.licencePlate = licencePlate;
     }
 
-    public String getVIN() {
-        return VIN;
+    public String getChassisNumber() {
+        return chassisNumber;
     }
 
-    public void setVIN(String VIN) {
-        this.VIN = VIN;
+    public void setChassisNumber(String chassisNumber) {
+        this.chassisNumber = chassisNumber;
     }
 
     public List<MaintenanceHistoryModel> getMaintenanceHistory() {
