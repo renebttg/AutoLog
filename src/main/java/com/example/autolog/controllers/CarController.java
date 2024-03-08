@@ -29,13 +29,13 @@ public class CarController {
     UserRepository userRepository;
 
     @PostMapping("/users/{userId}/cars")
-    public ResponseEntity<CarModel> saveCar(@PathVariable Long userId, @RequestBody @Valid CarRecordDto carRecordDto) {
+    public ResponseEntity<Object> saveCar(@PathVariable Long userId, @RequestBody @Valid CarRecordDto carRecordDto) {
         var carModel = new CarModel();
         BeanUtils.copyProperties(carRecordDto, carModel);
 
         Optional<UserModel> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
         }
         UserModel user = userOptional.get();
         carModel.setUser(user);
@@ -44,10 +44,10 @@ public class CarController {
     }
 
     @GetMapping("/users/{userId}/cars")
-    public ResponseEntity<List<CarModel>> getAllCarsForUser(@PathVariable Long userId) {
+    public ResponseEntity<Object> getAllCarsForUser(@PathVariable Long userId) {
         Optional<UserModel> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
         }
 
         List<CarModel> cars = carRepository.findByUser(userOptional.get());
@@ -56,30 +56,30 @@ public class CarController {
     }
 
     @GetMapping("/users/{userId}/cars/{carId}")
-    public ResponseEntity<CarModel> getCarByUserIdAndCarId(@PathVariable Long userId, @PathVariable Long carId) {
+    public ResponseEntity<Object> getCarByUserIdAndCarId(@PathVariable Long userId, @PathVariable Long carId) {
         Optional<UserModel> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
         }
 
         Optional<CarModel> carOptional = carRepository.findByUserAndIdCar(userOptional.get(), carId);
         if (carOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not Found");
         }
 
         return ResponseEntity.ok(carOptional.get());
     }
 
     @PutMapping("/users/{userId}/cars/{carId}")
-    public ResponseEntity<CarModel> updateCar(@PathVariable Long userId, @PathVariable Long carId, @RequestBody @Valid CarRecordDto carRecordDto) {
+    public ResponseEntity<Object> updateCar(@PathVariable Long userId, @PathVariable Long carId, @RequestBody @Valid CarRecordDto carRecordDto) {
         Optional<UserModel> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
         }
 
         Optional<CarModel> carOptional = carRepository.findByUserAndIdCar(userOptional.get(), carId);
         if (carOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not Found");
         }
 
         CarModel existingCar = carOptional.get();
@@ -88,6 +88,22 @@ public class CarController {
         CarModel updatedCar = carRepository.save(existingCar);
 
         return ResponseEntity.ok(updatedCar);
+    }
+
+    @DeleteMapping("/users/{userId}/cars/{carId}")
+    public ResponseEntity<Object> deleteCar(@PathVariable Long userId, @PathVariable Long carId) {
+        Optional<UserModel> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
+        }
+
+        Optional<CarModel> carOptional = carRepository.findByUserAndIdCar(userOptional.get(), carId);
+        if (carOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not Found");
+        }
+
+        carRepository.delete(carOptional.get());
+        return ResponseEntity.ok("Deleted Successfully");
     }
 
 }
