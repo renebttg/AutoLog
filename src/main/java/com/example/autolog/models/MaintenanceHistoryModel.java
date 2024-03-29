@@ -25,7 +25,6 @@ public class MaintenanceHistoryModel {
 
     private String serviceDescription;
     private LocalDate repairDate;
-    private LocalDate lastRepairDate;
     private BigDecimal serviceValue;
 
     public Long getIdMaintenance() {
@@ -58,14 +57,6 @@ public class MaintenanceHistoryModel {
 
     public void setRepairDate(LocalDate repairDate) {
         this.repairDate = repairDate;
-    }
-
-    public LocalDate getLastRepairDate() {
-        return lastRepairDate;
-    }
-
-    public void setLastRepairDate(LocalDate lastRepairDate) {
-        this.lastRepairDate = lastRepairDate;
     }
 
     public BigDecimal getServiceValue() {
