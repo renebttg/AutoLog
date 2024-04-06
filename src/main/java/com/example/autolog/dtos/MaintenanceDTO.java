@@ -6,5 +6,5 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record MaintenanceHistoryDTO(@NotBlank String serviceDescription, @NotNull LocalDate repairDate, @NotNull LocalDate lastRepairDate, @NotNull BigDecimal serviceValue) {
+public record MaintenanceDTO(@NotBlank String serviceDescription, @NotNull String serviceStatus, @NotNull LocalDate repairDate, @NotNull BigDecimal serviceValue) {
 }

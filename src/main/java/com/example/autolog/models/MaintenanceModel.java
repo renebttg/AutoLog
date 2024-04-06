@@ -11,8 +11,8 @@ import java.time.LocalDate;
  */
 
 @Entity
-@Table(name = "maintenance_history")
-public class MaintenanceHistoryModel {
+@Table(name = "tb_maintenance")
+public class MaintenanceModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +24,7 @@ public class MaintenanceHistoryModel {
     private CarModel car;
 
     private String serviceDescription;
+    private String serviceStatus;
     private LocalDate repairDate;
     private BigDecimal serviceValue;
 
@@ -49,6 +50,14 @@ public class MaintenanceHistoryModel {
 
     public void setServiceDescription(String serviceDescription) {
         this.serviceDescription = serviceDescription;
+    }
+
+    public String getServiceStatus() {
+        return serviceStatus;
+    }
+
+    public void setServiceStatus(String serviceStatus) {
+        this.serviceStatus = serviceStatus;
     }
 
     public LocalDate getRepairDate() {
