@@ -37,7 +37,7 @@ public class CarModel {
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<MaintenanceHistoryModel> maintenanceHistory;
+    private List<MaintenanceModel> maintenanceHistory;
 
     public long getIdCar() {
         return idCar;
@@ -103,11 +103,11 @@ public class CarModel {
         this.chassisNumber = chassisNumber;
     }
 
-    public List<MaintenanceHistoryModel> getMaintenanceHistory() {
+    public List<MaintenanceModel> getMaintenanceHistory() {
         return maintenanceHistory;
     }
 
-    public void setMaintenanceHistory(List<MaintenanceHistoryModel> maintenanceHistory) {
+    public void setMaintenanceHistory(List<MaintenanceModel> maintenanceHistory) {
         this.maintenanceHistory = maintenanceHistory;
     }
 }
