@@ -1,6 +1,6 @@
 package com.example.autolog.controllers;
 
-import com.example.autolog.dtos.CarRecordDto;
+import com.example.autolog.dtos.CarRecordDTO;
 import com.example.autolog.models.CarModel;
 import com.example.autolog.models.UserModel;
 import com.example.autolog.repositories.CarRepository;
@@ -29,7 +29,7 @@ public class CarController {
     UserRepository userRepository;
 
     @PostMapping("/users/{userId}/cars")
-    public ResponseEntity<Object> saveCar(@PathVariable Long userId, @RequestBody @Valid CarRecordDto carRecordDto) {
+    public ResponseEntity<Object> saveCar(@PathVariable Long userId, @RequestBody @Valid CarRecordDTO carRecordDto) {
         var carModel = new CarModel();
         BeanUtils.copyProperties(carRecordDto, carModel);
 
@@ -71,7 +71,7 @@ public class CarController {
     }
 
     @PutMapping("/users/{userId}/cars/{carId}")
-    public ResponseEntity<Object> updateCar(@PathVariable Long userId, @PathVariable Long carId, @RequestBody @Valid CarRecordDto carRecordDto) {
+    public ResponseEntity<Object> updateCar(@PathVariable Long userId, @PathVariable Long carId, @RequestBody @Valid CarRecordDTO carRecordDto) {
         Optional<UserModel> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");

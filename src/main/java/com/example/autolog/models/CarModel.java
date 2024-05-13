@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "TB_CARS")
-public class CarModel {
+public class CarModel implements Serializable {
     private static final long serialVersionUID = 1l;
 
     @Id
