@@ -3,6 +3,7 @@ package com.example.autolog.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -12,7 +13,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_maintenance")
-public class MaintenanceModel {
+public class MaintenanceModel implements Serializable {
+    private static final long serialVersionUID = 1l;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
