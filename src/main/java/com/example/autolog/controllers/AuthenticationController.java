@@ -7,6 +7,9 @@ import com.example.autolog.enums.UserRole;
 import com.example.autolog.models.UserModel;
 import com.example.autolog.repositories.UserRepository;
 import com.example.autolog.security.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthenticationController {
 
     @Autowired
@@ -36,6 +40,11 @@ public class AuthenticationController {
     @Autowired
     private UserRepository userRepository;
 
+    @Operation(summary = "User login", description = "Authenticate user credentials and generate a JWT token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful login"),
+            @ApiResponse(responseCode = "401", description = "Invalid email/password combination")
+    })
     @PostMapping("/login")
     public ResponseEntity<Object> login(@Valid @RequestBody UserLoginDTO userLoginRecordDTO) {
         try {
@@ -51,7 +60,11 @@ public class AuthenticationController {
         }
     }
 
-
+    @Operation(summary = "User registration", description = "Register a new user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Email or CNPJ already in use")
+    })
     @PostMapping("/register")
     public ResponseEntity<Object> register(@Valid @RequestBody UserRecordDTO userRecordDTO) {
         if (userRepository.findByEmail(userRecordDTO.email()) != null) {

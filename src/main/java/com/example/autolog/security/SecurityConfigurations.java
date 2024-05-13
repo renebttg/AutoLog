@@ -30,6 +30,7 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
@@ -51,6 +52,15 @@ public class SecurityConfigurations {
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
+    private static final String[] AUTH_WHITELIST = {
+            "/api/v1/auth/**",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+
+    };
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

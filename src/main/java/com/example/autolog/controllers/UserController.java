@@ -3,6 +3,9 @@ package com.example.autolog.controllers;
 import com.example.autolog.dtos.UserRecordDTO;
 import com.example.autolog.models.UserModel;
 import com.example.autolog.repositories.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +24,17 @@ import java.util.Optional;
  */
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
     @Autowired
     UserRepository userRepository;
 
+    @Operation(summary = "Get all users", description = "Retrieve a list of all users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User list retrieved successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access to user information")
+    })
     @GetMapping("/users")
     public ResponseEntity<Object> getAllUsers() {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -39,7 +48,12 @@ public class UserController {
         }
     }
 
-
+    @Operation(summary = "Get one user", description = "Retrieve details of a single user by their ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User details retrieved successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access to user information"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @GetMapping("/users/{id}")
     public ResponseEntity<Object> getOneUser(@PathVariable(value = "id") long id) {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -65,6 +79,12 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Update user", description = "Update details of an existing user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User updated successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access to update user information"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @PutMapping("/users/{id}")
     public ResponseEntity<Object> updateUser(@PathVariable(value = "id") long id, @RequestBody @Valid UserRecordDTO userRecordDto) {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -104,6 +124,12 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Delete user", description = "Delete a user by their ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access to delete user account"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") long id) {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
