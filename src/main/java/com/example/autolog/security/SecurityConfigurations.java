@@ -33,20 +33,6 @@ public class SecurityConfigurations {
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/users/{id}").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/users/{id}").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/users/{userId}/cars").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/users/{userId}/cars").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/users/{userId}/cars").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/users/{userId}/cars").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/users/{userId}/cars/{carId}/maintenance").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/users/{userId}/cars/{carId}/maintenance").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.PUT,"/users/{userId}/cars/{carId}/maintenance").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/users/{userId}/cars/{carId}/maintenance/{maintenanceId}").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.PUT,"/users/{userId}/cars/{carId}/maintenance/{maintenanceId}").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.DELETE,"/users/{userId}/cars/{carId}/maintenance/{maintenanceId}").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -55,8 +41,15 @@ public class SecurityConfigurations {
 
     private static final String[] AUTH_WHITELIST = {
             "/api/v1/auth/**",
+            "/v2/api-docs",
+            "/v3/api-docs",
             "/v3/api-docs/**",
             "/v3/api-docs.yaml",
+            "/swagger-resources",
+            "/swagger-resources/ui",
+            "/configuration/ui",
+            "/configuration/security",
+            "/webjars/**",
             "/swagger-ui/**",
             "/swagger-ui.html"
 
