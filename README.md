@@ -6,7 +6,7 @@ AutoLog é um sistema de gerenciamento de oficinas mecânicas com foco em automa
 
 Para acessar a documentação da API, consulte [Swagger Documentation](https://app.swaggerhub.com/apis/ReneBattaglia/AutoLog-api/1.0).
 
-Além disso, a documentação do projeto AutoLog está presente no código-fonte na branch main-swagger-doc. Nessa branch, o código possui anotações SpringDoc que permitem uma melhor visualização e testes de recursos no Swagger, juntamente com configurações de segurança mais permissivas para facilitar a visualização e teste dos endpoints.
+Além disso, a documentação do projeto AutoLog está presente no código-fonte na branch `main-swagger-doc`. Nessa branch, o código possui anotações SpringDoc que permitem uma melhor visualização e testes de recursos no Swagger, juntamente com configurações de segurança mais permissivas para facilitar a visualização e teste dos endpoints.
 
 ## Telas da aplicação
 
