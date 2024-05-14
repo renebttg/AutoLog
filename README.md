@@ -6,7 +6,25 @@ AutoLog é um sistema de gerenciamento de oficinas mecânicas com foco em automa
 
 Para acessar a documentação da API, consulte [Swagger Documentation](https://app.swaggerhub.com/apis/ReneBattaglia/AutoLog-api/1.0).
 
-Além disso, a documentação do projeto AutoLog está presente no código-fonte na branch `main-swagger-doc`. Nessa branch, o código possui anotações SpringDoc que permitem uma melhor visualização e testes de recursos no Swagger, juntamente com configurações de segurança mais permissivas para facilitar a visualização e teste dos endpoints.
+Além disso, a documentação do projeto AutoLog está presente no código-fonte na branch `main-swagger-doc`. Nessa branch, o código possui anotações SpringDoc que permitem uma melhor visualização e testes de recursos no Swagger. As configurações de segurança nesta branch são mais permissivas para facilitar a visualização e teste dos endpoints. Por outro lado, na branch `main`, o código não contém as mesmas marcações da documentação da branch `main-swagger-doc`, e as configurações de segurança são mais restritivas, visando uma maior segurança e controle de acesso aos endpoints.
+
+## Tecnologias Utilizadas
+
+- Java 19
+- Spring Boot
+- Spring Security
+- Hibernate/JPA
+- MySQL
+
+## Configuração
+
+### Banco de Dados
+
+A aplicação está configurada para utilizar um banco de dados MySQL. Certifique-se de ter o MySQL Workbench instalado e configurado corretamente. As configurações do banco de dados podem ser encontradas no arquivo `application.properties`.
+
+### Segurança
+
+A API utiliza JWT (JSON Web Tokens) para autenticação e autorização. As configurações de segurança estão definidas em `SecurityConfigurations.java`.
 
 ## Telas da aplicação
 
