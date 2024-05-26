@@ -1,0 +1,162 @@
+.input-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 15px; 
+}
+
+.input-container label {
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 300;
+  color: black;
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px 15px;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding-right: 40px; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(8, 8, 8, 0.1);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.input-field::placeholder {
+  color: #999; 
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.input-field.error {
+  border-color: #ff0000;
+}
+
+.icon-container {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.check-icon {
+  color: #007bff;
+  font-size: 20px;
+}
+
+.error-icon {
+  color: #ff4d4d;
+  font-size: 20px;
+}
+
+.error-message {
+  color: #ff4d4d;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .input-container {
+    margin-bottom: 15px;
+  }
+  .input-field {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+.input-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 5px; 
+}
+
+.input-container label {
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 300;
+  color: black;
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px 15px;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding-right: 40px; 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(8, 8, 8, 0.1);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.input-field::placeholder {
+  color: #999; 
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.input-field.error {
+  border-color: #ff0000;
+}
+
+.password-icon {
+  position: absolute;
+  right: 35px;
+  top: 50px;
+  transform: translateY(-50%);
+  color: #999;
+  cursor: pointer;
+}
+
+.icon-container {
+  position: absolute;
+  right: 15px;
+  top: 50px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.check-icon {
+  color: #007bff;
+  font-size: 20px;
+}
+
+.error-icon {
+  color: #ff4d4d;
+  font-size: 20px;
+}
+
+.error-message {
+  color: #ff4d4d;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .input-container {
+    margin-bottom: 15px;
+  }
+  .input-field {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

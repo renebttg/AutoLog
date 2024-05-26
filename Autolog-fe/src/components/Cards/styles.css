@@ -1,0 +1,46 @@
+.dashboard-card {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
+  padding: 30px 20px;
+  min-width: 300px;
+  background-color: #0A0E14; 
+  color: white; 
+  border-radius: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.dashboard-card h1 {
+  font-size: 26px;
+  font-weight: 300;
+  margin-top: 5px;
+  justify-self: center;
+}
+
+.dashboard-card p {
+  font-size: 12px;
+  font-weight: 200;
+  position: absolute;
+  left: 20px;
+  top: 10px;
+}
+
+
+.dark-mode .dashboard-card {
+  background-color: #333; 
+  color: white; 
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard-card {
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+}

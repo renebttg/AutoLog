@@ -1,0 +1,72 @@
+.collaboration {
+  padding: 100px 20px;
+  background-color: #020203;
+  color: #ffffff;
+}
+
+.collaboration .container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.image-content {
+  display: flex;
+  flex: 1.2;
+  min-width: 700px;
+  justify-content: center;
+}
+
+.image-content img {
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(226, 226, 226, 0.1);
+}
+
+.text-colab {
+  flex: 1;
+  min-width: 400px;
+  text-align: center;
+}
+
+.text-colab h2 {
+  font-size: 40px;
+  font-weight: 500;
+  color: #B4C3CC;
+  margin-bottom: 20px;
+}
+
+.text-colab p {
+  font-size: 16px;
+  font-weight: 300;
+  color: #dadada;
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  .collaboration .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .image-content {
+    margin-bottom: 30px;
+  }
+
+  .text-colab {
+    text-align: center;
+  }
+
+  .text-colab h2 {
+    font-size: 2em;
+  }
+
+  .text-colab p {
+    font-size: 1.1em;
+  }
+}
