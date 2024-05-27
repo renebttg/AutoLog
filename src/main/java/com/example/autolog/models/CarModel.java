@@ -12,7 +12,10 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "TB_CARS")
+@Table(name = "TB_CARS", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "licencePlate"}),
+        @UniqueConstraint(columnNames = {"user_id", "chassisNumber"})
+})
 public class CarModel implements Serializable {
     private static final long serialVersionUID = 1l;
 
@@ -29,11 +32,7 @@ public class CarModel implements Serializable {
     private String carBrand;
     private String model;
     private String color;
-
-    @Column(unique = true)
     private String licencePlate;
-
-    @Column(unique = true)
     private String chassisNumber;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

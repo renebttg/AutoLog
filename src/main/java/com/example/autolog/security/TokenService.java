@@ -28,6 +28,8 @@ public class TokenService {
             String token = JWT.create()
                     .withIssuer("auth-autolog-api")
                     .withSubject(userModel.getEmail())
+                    .withClaim("id", userModel.getIdUser())
+                    .withClaim("cnpj", userModel.getCnpj())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
             return token;
@@ -52,6 +54,6 @@ public class TokenService {
     }
 
     private Instant genExpirationDate(){
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.ofHours(-3));
+        return LocalDateTime.now().plusHours(4).toInstant(ZoneOffset.ofHours(-3));
     }
 }
