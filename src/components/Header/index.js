@@ -18,7 +18,7 @@ function Header({ toggleDarkMode }) {
 
   const fetchWorkshopName = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:8080/users/${userId}`);
+      const response = await axios.get(`https://autolog-deploy.azurewebsites.net/users/${userId}`);
       const nameWorkshop = response.data.nameWorkshop;
       setWorkshopName(nameWorkshop);
       setUserCircleInitials(getInitials(nameWorkshop));
