@@ -108,7 +108,7 @@ function EditService() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/users/${userId}/cars/${carId}/maintenance/${formData.idMaintenance}`,
+        `https://autolog-deploy.azurewebsites.net/users/${userId}/cars/${carId}/maintenance/${formData.idMaintenance}`,
         {
           method: "PUT",
           headers: {

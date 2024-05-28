@@ -37,7 +37,7 @@ function EditUser() {
 
     try {
       const response = await axios.get(
-        `http://localhost:8080/users/${userId}`,
+        `https://autolog-deploy.azurewebsites.net/users/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
