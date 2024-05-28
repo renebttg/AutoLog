@@ -1,0 +1,181 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+  height: 100vh;
+  padding: 30px;
+  box-sizing: border-box;
+  position: relative;
+  background-color: #B4C3CC; 
+  box-shadow: 2px 0px 20px rgba(0, 0, 0, 0.1); 
+}
+
+.logo h1 {
+  font-weight: 500;
+  font-size: 24px;
+  margin-bottom: 40px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 300;
+  margin-bottom: 15px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style-type: none;
+  padding: 0;
+}
+
+.links li {
+  margin-bottom: 10px;
+}
+
+.button-link {
+  display: inline-block;
+  width: 220px;
+  justify-self: flex-end;
+  padding: 9px 20px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #fff; 
+  color: #0a0e14; 
+  text-decoration: none;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(105, 105, 105, 0.1);
+}
+
+.button-link:hover {
+  box-shadow: 0 4px 5px rgba(70, 70, 70, 0.1);
+}
+
+.active {
+  background-color: #0a0e14; 
+  color: #fff; 
+}
+
+.card-sb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 20px;
+  justify-content: space-between;
+  background-color: #0a0e14; 
+  color: #fff; 
+  border-radius: 20px;
+  width: 220px;
+  height: 250px;
+}
+
+.card-sb-text h1 {
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.btn-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff; 
+  color: #0a0e14; 
+  border-radius: 10px;
+}
+
+.btn-card h3 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.exit-link {
+  color: #adadad; 
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.exit-link:hover {
+  color: #fff; 
+}
+
+.dark-mode .sidebar {
+  background-color: #333; 
+  color: white; 
+}
+
+.dark-mode .button-link {
+  color: rgb(0, 0, 0); 
+}
+
+.dark-mode .active {
+  background-color: #1e3a46; 
+}
+
+.dark-mode .card-sb {
+  background-color: #1e3a46; 
+}
+
+.dark-mode .btn-card {
+  background-color: #fff; 
+  color: #0a0e14; 
+}
+
+.dark-mode .exit-link {
+  color: #adadad; 
+}
+
+.dark-mode .exit-link:hover {
+  color: white; 
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .logo {
+    margin-bottom: 30px;
+  }
+
+  .section {
+    margin-bottom: 15px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .button-link {
+    font-size: 14px;
+  }
+
+  .button-link.active {
+    background-color: #1e3a46; 
+  }
+
+  .Exit {
+    position: relative;
+    margin-top: 20px;
+    text-align: center;
+  }
+}
