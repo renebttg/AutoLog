@@ -1,121 +1,70 @@
-# Autolog
+# Getting Started with Create React App
 
-AutoLog é um sistema de gerenciamento de oficinas mecânicas com foco em automatizar serviços manuais de registro para melhor gerenciamento de tempo e recursos. Esta API fornece funcionalidades para registrar e gerenciar informações sobre usuários, carros e manutenções em uma oficina mecânica, permitindo aos usuários controlar facilmente suas operações diárias e melhorar a eficiência de seus negócios.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Documentação
+## Available Scripts
 
-Para acessar a documentação da API, consulte [Swagger Documentation](https://app.swaggerhub.com/apis/ReneBattaglia/AutoLog-api/1.0).
+In the project directory, you can run:
 
-Além disso, a documentação do projeto AutoLog está presente no código-fonte na branch `main-swagger-doc`. Nessa branch, o código possui anotações SpringDoc que permitem uma melhor visualização e testes de recursos no Swagger. As configurações de segurança nesta branch são mais permissivas para facilitar a visualização e teste dos endpoints. Por outro lado, na branch `main`, o código não contém as mesmas marcações da documentação da branch `main-swagger-doc`, e as configurações de segurança são mais restritivas, visando uma maior segurança e controle de acesso aos endpoints.
+### `npm start`
 
-## Tecnologias Utilizadas
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-- Java 19
-- Spring Boot
-- Spring Security
-- Hibernate/JPA
-- MySQL
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-## Configuração
+### `npm test`
 
-### Banco de Dados
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-A aplicação está configurada para utilizar um banco de dados MySQL. Certifique-se de ter o MySQL Workbench instalado e configurado corretamente. As configurações do banco de dados podem ser encontradas no arquivo `application.properties`.
+### `npm run build`
 
-### Segurança
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-A API utiliza JWT (JSON Web Tokens) para autenticação e autorização. As configurações de segurança estão definidas em `SecurityConfigurations.java`.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-## Telas da aplicação
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-O projeto ainda não contém a integração completa entre o Frontend e o Backend. Abaixo estão algumas capturas de tela do projeto AutoLog, mostrando o progresso atual do desenvolvimento frontend:
+### `npm run eject`
 
-### Tela de Cadastro
-![Cadastro_sc](https://github.com/renebttg/AutoLog/assets/114888521/74bc666b-7ecf-4807-996d-47359f4a8519)
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-### Tela de Login
-![Login_sc](https://github.com/renebttg/AutoLog/assets/114888521/ec62ef3a-96ca-4ce0-bcc5-81bba0f56b69)
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### Dashboard Principal
-![Dashboard_sc](https://github.com/renebttg/AutoLog/assets/114888521/bfc7e586-bde6-4d96-89d5-478c5cb0f333)
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Autenticação
+## Learn More
 
-Para acessar os endpoints protegidos da API, é necessário primeiro registrar um usuário fornecendo as seguintes informações:
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-```json
-{
-  "name": "Nome do usuário",
-  "cnpj": "12345678901234",
-  "email": "usuario@example.com",
-  "password": "senha123",
-  "phone": "1234567890",
-  "nameWorkshop": "Oficina do Usuário",
-  "addressWorkshop": "Rua da Oficina, 123"
-}
-```
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-Após o registro, você pode autenticar-se enviando as seguintes informações:
+### Code Splitting
 
-```json
-{
-  "email": "usuario@example.com",
-  "password": "senha123"
-}
-```
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-O token JWT retornado após o login deve ser inserido no cabeçalho de autenticação (Bearer Token) ao acessar os endpoints protegidos da API.
+### Analyzing the Bundle Size
 
-## Endpoints
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Usuários
+### Making a Progressive Web App
 
-- **GET /users**: Retorna todos os usuários.
-- **GET /users/{id}**: Retorna um usuário específico pelo ID.
-- **PUT /users/{id}**: Atualiza um usuário existente.
-- **DELETE /users/{id}**: Remove um usuário existente.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Carros
+### Advanced Configuration
 
-- **GET /cars**: Retorna todos os carros.
-- **GET /cars/{id}**: Retorna um carro específico pelo ID.
-- **POST /cars**: Registra um novo carro.
-- **PUT /cars/{id}**: Atualiza um carro existente.
-- **DELETE /cars/{id}**: Remove um carro existente.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Manutenções
+### Deployment
 
-- **GET /maintenances**: Retorna todas as manutenções.
-- **GET /maintenances/{id}**: Retorna uma manutenção específica pelo ID.
-- **POST /maintenances**: Registra uma nova manutenção.
-- **PUT /maintenances/{id}**: Atualiza uma manutenção existente.
-- **DELETE /maintenances/{id}**: Remove uma manutenção existente.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-## Principais Contribuidores do Projeto
+### `npm run build` fails to minify
 
-Abaixo estão os desenvolvedores que contribuíram para este projeto:
-
-- **Rene Battaglia** (Back-End Developer): Responsável por todo o desenvolvimento do back-end do projeto AutoLog. Criou a lógica de negócios, integrações com o banco de dados, implementou a segurança e configurou os endpoints da API.
-
-- **Alexandre Sampaio** (UI-UX Designer e Front-End Developer): Encarregado do design de interface do usuário (UI) e da experiência do usuário (UX) para o AutoLog. Desenvolveu o front-end completo do sistema, garantindo uma experiência intuitiva e agradável para os usuários.
-
-- **Jean Israel** (Responsável por Diagramas do Projeto): Responsável pela elaboração e criação dos diagramas do projeto AutoLog. Esses diagramas forneceram uma representação visual clara da arquitetura, fluxos de dados e relacionamentos entre os componentes do sistema.
-
-- **Vitor Hugo** (Responsável pela Documentação): Encarregado da documentação do projeto AutoLog. Elaborou e organizou toda a documentação técnica e de usuário, garantindo que o projeto fosse bem documentado e de fácil compreensão para os desenvolvedores e usuários.
-
-- **Murilo Henrique** (Scrum Master): Atuou como Scrum Master no projeto AutoLog, sendo responsável por gerenciar a equipe de desenvolvimento, coordenar as atividades, facilitar as reuniões e garantir a aplicação eficaz dos princípios ágeis e práticas do Scrum.
-
-## Contribuindo
-
-Para contribuir, siga estas etapas:
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua nova funcionalidade (`git checkout -b feature/nova-funcionalidade`)
-3. Faça commit de suas alterações (`git commit -am 'Adiciona nova funcionalidade'`)
-4. Faça push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Crie um novo Pull Request
-
-## Licença
-
-Este projeto está licenciado sob a [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
