@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import DecodificarToken from "../../services/tokenDecode";
+import { useEndpoint } from "../../services/EndpointContext";
 import "./styles.css";
 
 function TableCar() {
@@ -10,8 +11,9 @@ function TableCar() {
   const [targetCar, setTargetCar] = useState(null);
   const [errors, setErrors] = useState({});
   const [userId, setUserId] = useState(null);
+  const endpoint = useEndpoint();
 
-  const fetchCarByPlate = async (userId, plate) => {
+  const fetchCarByPlate = useCallback(async (userId, plate) => {
     const token = JSON.parse(localStorage.getItem("user"))?.token;
     if (!token) {
       console.error("Erro de autenticação. Por favor, faça login novamente.");
@@ -19,20 +21,17 @@ function TableCar() {
     }
 
     try {
-      const response = await axios.get(
-        `https://autolog-deploy.azurewebsites.net/users/${userId}/cars`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${endpoint}/users/${userId}/cars`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const carsData = response.data;
       const foundCar = carsData.find((car) => car.licencePlate === plate);
       if (foundCar) {
         setTargetCar(foundCar);
         const carServicesResponse = await axios.get(
-          `https://autolog-deploy.azurewebsites.net/users/${userId}/cars/${foundCar.idCar}/maintenance`,
+          `${endpoint}/users/${userId}/cars/${foundCar.idCar}/maintenance`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -41,7 +40,7 @@ function TableCar() {
         );
         setCarServices(carServicesResponse.data);
         setSearched(true);
-        setErrors({}); 
+        setErrors({});
       } else {
         setTargetCar(null);
         setCarServices([]);
@@ -52,7 +51,7 @@ function TableCar() {
       console.error("Erro ao buscar informações do carro:", error);
       setErrors({ licencePlate: "Erro ao buscar informações do carro" });
     }
-  };
+  }, [endpoint]);
 
   const validate = () => {
     const newErrors = {};
@@ -61,8 +60,7 @@ function TableCar() {
     if (!licencePlate) {
       newErrors.licencePlate = "Placa do carro é obrigatória.";
     } else if (!plateRegex.test(licencePlate)) {
-      newErrors.licencePlate =
-        "Formato de placa inválido. Use o formato AAA-AAAA.";
+      newErrors.licencePlate = "Formato de placa inválido. Use o formato AAA-AAAA.";
     }
 
     setErrors(newErrors);
@@ -74,9 +72,9 @@ function TableCar() {
     await fetchCarByPlate(userId, licencePlate);
   };
 
-  const handleTokenDecoded = (id) => {
+  const handleTokenDecoded = useCallback((id) => {
     setUserId(id);
-  };
+  }, []);
 
   const handleInputChange = (e) => {
     const { value } = e.target;
@@ -100,9 +98,7 @@ function TableCar() {
           className={`search-input ${errors.licencePlate ? "input-error" : ""}`}
           maxLength="8"
         />
-        {errors.licencePlate && (
-          <p className="error-message">{errors.licencePlate}</p>
-        )}
+        {errors.licencePlate && <p className="error-message">{errors.licencePlate}</p>}
         <button onClick={handleSearch} className="search-button">
           Pesquisar
         </button>
@@ -147,7 +143,6 @@ function TableCar() {
             </tbody>
           </table>
         )}
-        
       </div>
     </div>
   );

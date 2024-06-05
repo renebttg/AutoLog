@@ -13,7 +13,7 @@ function CarRegister() {
         <Sidebar />
       </div>
       <div className="main-content-services">
-        <Header  userName={"Alexandre"} userCircle={"AS"}/>
+        <Header/>
         <PostCar/>
       </div>
     </div>

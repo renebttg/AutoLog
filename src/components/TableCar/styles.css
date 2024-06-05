@@ -27,8 +27,8 @@
     background-color: #0A0E14; 
     color: white; 
     border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
+    border-radius: 10px;
+    padding: 10px 30px;
     margin-left: 20px;
     cursor: pointer;
     transition: background-color 0.3s; 

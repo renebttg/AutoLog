@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Input from "../Inputs";
 import axios from "axios";
 import DecodificarToken from "../../services/tokenDecode";
+import { useEndpoint } from "../../services/EndpointContext";
+
 
 function PostService() {
   const [formData, setFormData] = useState({
@@ -14,6 +16,7 @@ function PostService() {
   const [message, setMessage] = useState("");
   const [carId, setCarId] = useState(null);
   const [userId, setUserId] = useState(null);
+  const endpoint = useEndpoint();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +36,7 @@ function PostService() {
 
       try {
         const response = await axios.get(
-          `https://autolog-deploy.azurewebsites.net/users/${userId}/cars`,
+          `${endpoint}/users/${userId}/cars`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -58,7 +61,7 @@ function PostService() {
     if (formData.licencePlate && userId) {
       fetchCarIdByPlate(userId);
     }
-  }, [formData.licencePlate, userId]);
+  }, [formData.licencePlate, userId, endpoint]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,7 +84,7 @@ function PostService() {
       };
 
       const response = await fetch(
-        `https://autolog-deploy.azurewebsites.net/users/${userId}/cars/${carId}/maintenance`,
+        `${endpoint}/users/${userId}/cars/${carId}/maintenance`,
         {
           method: "POST",
           headers: {
@@ -166,7 +169,7 @@ function PostService() {
           required
         />
         <div className="btn-container">
-          <button type="submit" className="submit-btn">
+          <button type="submit" className="submit-button">
             Registrar Serviço
           </button>
         </div>

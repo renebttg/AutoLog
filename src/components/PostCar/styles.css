@@ -1,69 +1,89 @@
+
+
 .car-registration-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    padding: 25px 50px;
-    gap: 1rem;
-    width: 500px;
-    border-radius: 10px;
-    background-color: white;
-    border-radius: 20px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 8px rgba(88, 88, 88, 0.1);
-  }
-  
-  .form-title {
-    margin-bottom: 25px; 
-    font-size: 28px; 
-    font-weight: 400;
-    text-align: center;
-    color: #182B31; 
-  }
-  
-  .form-group {
-    margin-bottom: 25px; 
-  }
-  
-  
-  
-  .submit-btn {
-    width: 100%;
-    margin-top: 30px;
-    padding: 10px; 
-    background-color: #0A0E14;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px; 
-    cursor: pointer;
-    transition: background-color 0.3s; 
-    font-weight: 300;
-  }
-  
-  .submit-btn:hover {
-    background-color: #0A0E10; 
-  }
-  
-  .message {
-    margin-top: 20px;
-    text-align: center;
-    color: #007bff;
-  }
-  .form-message {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .form-message.success {
-    color: #007bff; /* Blue color for success messages */
-  }
-  
-  .form-message.error {
-    color: #e74c3c; /* Red color for error messages */
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 25px 50px;
+  gap: 1rem;
+  width: 500px;
+  border-radius: 10px;
+  background-color: white;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(88, 88, 88, 0.1);
+}
+
+.form-title {
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: 400;
+  text-align: center;
+  color: #182b31;
+}
+
+.submit-button {
+  width: 100%;
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #0a0e14;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-weight: 300;
+}
+
+.submit-button:hover {
+  background-color: #0a0e10;
+  transform: scale(1.05);
+}
+
+.message {
+  margin-top: 20px;
+  text-align: center;
+  color: #007bff;
+}
+
+.form-message {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.form-message.success {
+  color: #007bff; 
+}
+
+.form-message.error {
+  color: #e74c3c;
+}
+
+.success-message {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.success-message h2 {
+  color:  #007bff;
+}
+
+.success-message .btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}

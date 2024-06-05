@@ -1,11 +1,14 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
+import { createRoot } from "react-dom/client";
 import App from "./App";
+import "./index.css";
+import { EndpointProvider } from "./services/EndpointContext";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const container = document.getElementById("root");
+const root = createRoot(container);
+
 root.render(
-  <React.StrictMode>
+  <EndpointProvider>
     <App />
-  </React.StrictMode>
+  </EndpointProvider>
 );

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./styles.css";
+import { useEndpoint } from "../../services/EndpointContext";
 import Input from "../Inputs";
 import Button from "../Buttons";
 import Logo from "../Logo";
@@ -30,6 +31,7 @@ function FormRegister() {
   const [showErrors, setShowErrors] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const endpoint = useEndpoint();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -104,7 +106,7 @@ function FormRegister() {
 
         try {
           const response = await axios.post(
-            "https://autolog-deploy.azurewebsites.net/auth/register",
+            `${endpoint}/auth/register`,
             dataToSend,
             {
               headers: {

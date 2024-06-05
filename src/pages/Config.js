@@ -4,7 +4,7 @@ import DeleteCar from "../components/DeleteCar";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCar, faTools } from '@fortawesome/free-solid-svg-icons';
 import "../styles/ConfigUser.css";
 
 function Config() {
@@ -14,11 +14,11 @@ function Config() {
       <div className="content-wrapper">
         <div className="config-area">
           <div className="form-section">
-            <h2 className="section-title">Excluir Serviço</h2>
+          <FontAwesomeIcon icon={faTools} className="form-icon" />
             <DeleteService />
           </div>
           <div className="form-section">
-            <h2 className="section-title">Excluir Carro</h2>
+          <FontAwesomeIcon icon={faCar} className="form-icon" />
             <DeleteCar />
           </div>
         </div>

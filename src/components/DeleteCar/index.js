@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Input from "../Inputs";
 import DecodificarToken from "../../services/tokenDecode";
+import { useEndpoint } from "../../services/EndpointContext";
 
 function DeleteCar() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ function DeleteCar() {
   const [carId, setCarId] = useState(null);
   const [userId, setUserId] = useState(null);
   const [step, setStep] = useState(1);
+  const endpoint = useEndpoint();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,14 +32,11 @@ function DeleteCar() {
       }
 
       try {
-        const response = await axios.get(
-          `https://autolog-deploy.azurewebsites.net/users/${userId}/cars`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${endpoint}/users/${userId}/cars`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const cars = response.data;
         const targetCar = cars.find(
           (car) => car.licencePlate === formData.plateNumber
@@ -56,7 +55,7 @@ function DeleteCar() {
     if (formData.plateNumber && userId) {
       fetchCarIdByPlate(userId);
     }
-  }, [formData.plateNumber, userId]);
+  }, [formData.plateNumber, userId, endpoint]);
 
   const handleNextStep = (e) => {
     e.preventDefault();
@@ -83,7 +82,7 @@ function DeleteCar() {
 
     try {
       const response = await fetch(
-        `https://autolog-deploy.azurewebsites.net/users/${userId}/cars/${carId}`,
+        `${endpoint}/users/${userId}/cars/${carId}`,
         {
           method: "DELETE",
           headers: {
@@ -136,7 +135,7 @@ function DeleteCar() {
               autoComplete="on"
             />
             <div className="btn-container">
-              <button type="submit" className="submit-btn">
+              <button type="submit" className="submit-button">
                 Próxima Etapa
               </button>
             </div>
@@ -145,7 +144,7 @@ function DeleteCar() {
 
         {step === 2 && (
           <div className="btn-container">
-            <button type="submit" className="submit-btn">
+            <button type="submit" className="submit-button">
               Deletar Carro
             </button>
           </div>

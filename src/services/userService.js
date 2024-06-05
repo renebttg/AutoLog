@@ -6,6 +6,10 @@ export default class UserServices {
       baseURL: process.env.REACT_APP_API_LOGIN || "https://autolog-deploy.azurewebsites.net/auth",
     });
   }
+  //Trocar o endpoint aqui no e services/EndpointContext.js!
+  //https://autolog-deploy.azurewebsites.net/auth
+  
+
 
   async login(dados) {
     try {

@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import DecodificarToken from "../../services/tokenDecode";
+import { useEndpoint } from "../../services/EndpointContext";
 
 function TableHistoric() {
   const [completedServices, setCompletedServices] = useState([]);
+  const endpoint = useEndpoint(); 
 
   const fetchData = async (userId) => {
     try {
-      const response = await axios.get(
-        `https://autolog-deploy.azurewebsites.net/users/${userId}/cars`
-      );
-      console.log(response.data);
+      const response = await axios.get(`${endpoint}/users/${userId}/cars`);
       const cars = response.data;
       const completedServices = [];
       cars.forEach((car) => {

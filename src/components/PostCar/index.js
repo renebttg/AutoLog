@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 import Input from "../Inputs";
 import Select from "../Inputs/Select";
 import DecodificarToken from "../../services/tokenDecode";
+import { useEndpoint } from "../../services/EndpointContext";
 import "./styles.css";
 
 function CarRegistrationForm() {
@@ -17,6 +20,10 @@ function CarRegistrationForm() {
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [userId, setUserId] = useState(null);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const endpoint = useEndpoint();
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -55,27 +62,19 @@ function CarRegistrationForm() {
       return;
     }
 
+    setIsLoading(true);
+
     try {
-      const response = await fetch(
-        `https://autolog-deploy.azurewebsites.net/users/${userId}/cars`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${endpoint}/users/${userId}/cars`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
       if (response.ok) {
-        setFormData({
-          ownerName: "",
-          carBrand: "",
-          model: "",
-          color: "",
-          licencePlate: "",
-          chassisNumber: "",
-        });
+        setIsRegistered(true);
         setMessage("Veículo registrado com sucesso!");
       } else {
         setMessage("Erro ao registrar veículo.");
@@ -83,11 +82,9 @@ function CarRegistrationForm() {
     } catch (error) {
       console.error("Erro ao adicionar veículo:", error.message);
       setMessage("Erro ao registrar veículo.");
+    } finally {
+      setIsLoading(false);
     }
-
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
   };
 
   const handleTokenDecoded = (id) => {
@@ -130,90 +127,134 @@ function CarRegistrationForm() {
     "Vermelho",
   ];
 
+  const handleRegisterService = () => {
+    navigate("/servicesRegister");
+  };
+
+  const handleRegisterAnotherCar = () => {
+    setIsRegistered(false);
+    setFormData({
+      ownerName: "",
+      carBrand: "",
+      model: "",
+      color: "",
+      licencePlate: "",
+      chassisNumber: "",
+    });
+    setMessage("");
+    setErrors({});
+  };
+
   return (
     <div className="car-registration-form">
       <DecodificarToken onTokenDecoded={handleTokenDecoded} />
-      <form onSubmit={handleSubmit} className="form">
-        <h1 className="form-title">Registro de Veículo</h1>
-        <Input
-          labelText="Nome do Proprietário"
-          labelFor="ownerName"
-          inputType="text"
-          onChange={handleInputChange}
-          value={formData.ownerName}
-          name="ownerName"
-          placeholder="Digite o nome do proprietário"
-          autoComplete="on"
-          errorMessage={errors.ownerName}
-        />
-        <Select
-          labelText="Marca do Carro"
-          labelFor="carBrand"
-          onChange={handleInputChange}
-          value={formData.carBrand}
-          name="carBrand"
-          options={carBrands.map((brand) => ({ value: brand, label: brand }))}
-          placeholder="Selecione a marca do carro"
-          errorMessage={errors.carBrand}
-        />
-        <Input
-          labelText="Modelo"
-          labelFor="model"
-          inputType="text"
-          onChange={handleInputChange}
-          value={formData.model}
-          name="model"
-          placeholder="Digite o modelo do carro"
-          autoComplete="on"
-          errorMessage={errors.model}
-        />
-        <Select
-          labelText="Cor"
-          labelFor="color"
-          onChange={handleInputChange}
-          value={formData.color}
-          name="color"
-          options={carColors.map((color) => ({ value: color, label: color }))}
-          placeholder="Selecione a cor do carro"
-          errorMessage={errors.color}
-        />
-        <Input
-          labelText="Placa do Carro"
-          labelFor="licencePlate"
-          inputType="text"
-          onChange={handleInputChange}
-          value={formData.licencePlate}
-          name="licencePlate"
-          placeholder="Digite a placa do carro"
-          errorMessage={errors.licencePlate}
-        />
-        <Input
-          labelText="Número do Chassi"
-          labelFor="chassisNumber"
-          inputType="text"
-          onChange={handleInputChange}
-          value={formData.chassisNumber}
-          name="chassisNumber"
-          placeholder="Digite o número do chassi"
-          errorMessage={errors.chassisNumber}
-        />
-        <div className="btn-container">
-          <button type="submit" className="submit-btn">
-            Registrar Veículo
-          </button>
+      {isRegistered ? (
+        <div className="success-message">
+          <h2>Veículo registrado com sucesso!</h2>
+          <p>Deseja registrar um serviço para o veículo cadastrado?</p>
+          <div className="btn-container">
+            <button onClick={handleRegisterService} className="submit-button">
+              Sim
+            </button>
+            <button onClick={handleRegisterAnotherCar} className="submit-button">
+              Não
+            </button>
+          </div>
         </div>
-        {message && (
-          <p
-            className={`form-message ${
-              message === "Veículo registrado com sucesso!"
-                ? "success"
-                : "error"
-            }`}
-          >
-            {message}
-          </p>
-        )}
-      </form>
+      ) : (
+        <form onSubmit={handleSubmit} className="form">
+          <h1 className="form-title">Registro de Veículo</h1>
+          <Input
+            labelText="Nome do Proprietário"
+            labelFor="ownerName"
+            inputType="text"
+            onChange={handleInputChange}
+            value={formData.ownerName}
+            name="ownerName"
+            placeholder="Digite o nome do proprietário"
+            autoComplete="on"
+            errorMessage={errors.ownerName}
+          />
+          <Select
+            labelText="Marca do Carro"
+            labelFor="carBrand"
+            onChange={handleInputChange}
+            value={formData.carBrand}
+            name="carBrand"
+            options={carBrands.map((brand) => ({
+              value: brand,
+              label: brand,
+            }))}
+            placeholder="Selecione a marca do carro"
+            errorMessage={errors.carBrand}
+          />
+          <Input
+            labelText="Modelo"
+            labelFor="model"
+            inputType="text"
+            onChange={handleInputChange}
+            value={formData.model}
+            name="model"
+            placeholder="Digite o modelo do carro"
+            autoComplete="on"
+            errorMessage={errors.model}
+          />
+          <Select
+            labelText="Cor"
+            labelFor="color"
+            onChange={handleInputChange}
+            value={formData.color}
+            name="color"
+            options={carColors.map((color) => ({
+              value: color,
+              label: color,
+            }))}
+            placeholder="Selecione a cor do carro"
+            errorMessage={errors.color}
+          />
+          <Input
+            labelText="Placa do Carro"
+            labelFor="licencePlate"
+            inputType="text"
+            onChange={handleInputChange}
+            value={formData.licencePlate}
+            name="licencePlate"
+            placeholder="Digite a placa do carro"
+            errorMessage={errors.licencePlate}
+          />
+          <Input
+            labelText="Número do Chassi"
+            labelFor="chassisNumber"
+            inputType="text"
+            onChange={handleInputChange}
+            value={formData.chassisNumber}
+            name="chassisNumber"
+            placeholder="Digite o número do chassi"
+            errorMessage={errors.chassisNumber}
+          />
+          <div className="btn-container">
+            <button type="submit" className="submit-button">
+              Registrar Veículo
+            </button>
+          </div>
+          {isLoading && (
+            <div className="loading-spinner">
+              <ClipLoader color={"#007bff"} loading={isLoading} size={50} />
+            </div>
+          )}
+          {message && (
+            <p
+              className={`form-message ${
+                message === "Veículo registrado com sucesso!"
+                  ? "success"
+                  : "error"
+              }`}
+            >
+              {message}
+            </p>
+          )}
+        </form>
+      )}
     </div>
   );
 }

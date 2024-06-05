@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DecodificarToken from "../../services/tokenDecode";
+import { useEndpoint } from "../../services/EndpointContext";
 import "./styles.css";
 
 function TableServices() {
   const [cars, setCars] = useState([]);
   const [showAll, setShowAll] = useState(false);
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
+  const endpoint = useEndpoint();
 
-  const fetchData = async (userId) => {
+  const fetchData = useCallback(async (userId) => {
     try {
-      const response = await axios.get(
-        `https://autolog-deploy.azurewebsites.net/users/${userId}/cars`
-      );
+      const response = await axios.get(`${endpoint}/users/${userId}/cars`);
       const sortedData = response.data.map((car) => {
         const sortedMaintenanceHistory = car.maintenanceHistory.sort(
           (a, b) => a.idMaintenance - b.idMaintenance
@@ -24,11 +25,17 @@ function TableServices() {
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
     }
-  };
+  }, [endpoint]);
 
-  const handleTokenDecoded = (id) => {
-    fetchData(id);
-  };
+  const handleTokenDecoded = useCallback((id) => {
+    setUserId(id);
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      fetchData(userId);
+    }
+  }, [userId, fetchData]);
 
   const handleRedirect = () => {
     navigate("/carRegister");

@@ -3,6 +3,7 @@ import axios from "axios";
 import Input from "../Inputs";
 import Select from "../Inputs/Select";
 import DecodificarToken from "../../services/tokenDecode";
+import { useEndpoint } from "../../services/EndpointContext";
 
 function EditService() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ function EditService() {
   const [carId, setCarId] = useState(null);
   const [userId, setUserId] = useState(null);
   const [step, setStep] = useState(1);
+  const endpoint = useEndpoint();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,14 +37,11 @@ function EditService() {
     }
 
     try {
-      const response = await axios.get(
-        `https://autolog-deploy.azurewebsites.net/users/${userId}/cars`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${endpoint}/users/${userId}/cars`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const cars = response.data;
       const maintenanceId = parseInt(formData.idMaintenance);
 
@@ -108,7 +107,7 @@ function EditService() {
 
     try {
       const response = await fetch(
-        `https://autolog-deploy.azurewebsites.net/users/${userId}/cars/${carId}/maintenance/${formData.idMaintenance}`,
+        `${endpoint}/users/${userId}/cars/${carId}/maintenance/${formData.idMaintenance}`,
         {
           method: "PUT",
           headers: {
@@ -177,7 +176,7 @@ function EditService() {
               placeholder="Digite o número do serviço"
             />
             <div className="btn-container">
-              <button type="submit" className="submit-btn">
+              <button type="submit" className="submit-button">
                 Próxima Etapa
               </button>
             </div>
@@ -227,7 +226,7 @@ function EditService() {
               ]}
             />
             <div className="btn-container">
-              <button type="submit" className="submit-btn">
+              <button type="submit" className="submit-button">
                 Atualizar Serviço
               </button>
             </div>

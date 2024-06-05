@@ -10,13 +10,13 @@ function Sidebar({ active }) {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
     <div className="sidebar">
       <div className="logo">
-        <Logo titleColor="#0A0E14" barColor="#fff" />
+        <Logo titleColor="#fff" barColor="#76A1BC" />
       </div>
       <div className="section">
         <ul className="links">

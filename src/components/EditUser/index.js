@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+// src/components/EditUser.js
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Input from "../Inputs";
 import DecodificarToken from "../../services/tokenDecode";
+import { useEndpoint } from "../../services/EndpointContext";
 import "./styles.css";
 
 function EditUser() {
@@ -18,6 +20,7 @@ function EditUser() {
   const [message, setMessage] = useState("");
   const [, setIsLoading] = useState(true);
   const [userId, setUserId] = useState(null);
+  const endpoint = useEndpoint();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,46 +30,46 @@ function EditUser() {
     });
   };
 
-  const fetchUserData = async (userId) => {
-    const token = JSON.parse(localStorage.getItem("user"))?.token;
-    if (!token) {
-      setMessage("Erro de autenticação. Por favor, faça login novamente.");
-      setIsLoading(false);
-      return;
-    }
+  const fetchUserData = useCallback(
+    async (userId) => {
+      const token = JSON.parse(localStorage.getItem("user"))?.token;
+      if (!token) {
+        setMessage("Erro de autenticação. Por favor, faça login novamente.");
+        setIsLoading(false);
+        return;
+      }
 
-    try {
-      const response = await axios.get(
-        `https://autolog-deploy.azurewebsites.net/users/${userId}`,
-        {
+      try {
+        const response = await axios.get(`${endpoint}/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
-      );
-      const userData = response.data;
-      setFormData({
-        name: userData.name,
-        cnpj: userData.cnpj,
-        email: userData.email,
-        phone: userData.phone,
-        password: userData.password,
-        nameWorkshop: userData.nameWorkshop,
-        addressWorkshop: userData.addressWorkshop,
-      });
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Erro ao buscar informações do usuário:", error);
-      setMessage("Erro ao buscar informações do usuário.");
-      setIsLoading(false);
-    }
-  };
+        });
+        const userData = response.data;
+        setFormData({
+          name: userData.name,
+          cnpj: userData.cnpj,
+          email: userData.email,
+          phone: userData.phone,
+          password: userData.password,
+          nameWorkshop: userData.nameWorkshop,
+          addressWorkshop: userData.addressWorkshop,
+        });
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Erro ao buscar informações do usuário:", error);
+        setMessage("Erro ao buscar informações do usuário.");
+        setIsLoading(false);
+      }
+    },
+    [endpoint]
+  );
 
   useEffect(() => {
     if (userId) {
       fetchUserData(userId);
     }
-  }, [userId]);
+  }, [userId, fetchUserData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,7 +82,7 @@ function EditUser() {
 
     try {
       const response = await axios.put(
-        `https://autolog-deploy.azurewebsites.net/users/${userId}`,
+        `${endpoint}/users/${userId}`,
         formData,
         {
           headers: {
@@ -109,78 +112,84 @@ function EditUser() {
       <DecodificarToken onTokenDecoded={handleTokenDecoded} />
       <form onSubmit={handleSubmit} className="form">
         <h1 className="form-title">Editar Informações do Usuário</h1>
-        <Input
-          labelText="Nome"
-          labelFor="name"
-          inputType="text"
-          onChange={handleInputChange}
-          value={formData.name}
-          name="name"
-          placeholder="Digite o nome"
-          autoComplete="on"
-        />
-        <Input
-          labelText="CNPJ"
-          labelFor="cnpj"
-          inputType="text"
-          onChange={handleInputChange}
-          value={formData.cnpj}
-          name="cnpj"
-          placeholder="Digite o CNPJ"
-          autoComplete="on"
-        />
-        <Input
-          labelText="Email"
-          labelFor="email"
-          inputType="email"
-          onChange={handleInputChange}
-          value={formData.email}
-          name="email"
-          placeholder="Digite o email"
-          autoComplete="on"
-        />
-        <Input
-          labelText="Telefone"
-          labelFor="phone"
-          inputType="text"
-          onChange={handleInputChange}
-          value={formData.phone}
-          name="phone"
-          placeholder="Digite o telefone"
-          autoComplete="on"
-        />
-        <Input
-          labelText="Senha"
-          labelFor="password"
-          inputType="password"
-          onChange={handleInputChange}
-          value={formData.password}
-          name="password"
-          placeholder="Digite a senha"
-          autoComplete="on"
-        />
-        <Input
-          labelText="Nome da Oficina"
-          labelFor="nameWorkshop"
-          inputType="text"
-          onChange={handleInputChange}
-          value={formData.nameWorkshop}
-          name="nameWorkshop"
-          placeholder="Digite o nome da oficina"
-          autoComplete="on"
-        />
-        <Input
-          labelText="Endereço da Oficina"
-          labelFor="addressWorkshop"
-          inputType="text"
-          onChange={handleInputChange}
-          value={formData.addressWorkshop}
-          name="addressWorkshop"
-          placeholder="Digite o endereço da oficina"
-          autoComplete="on"
-        />
+        <div className="form-block">
+          <h2 className="block-title">Informações Pessoais</h2>
+          <Input
+            labelText="Nome"
+            labelFor="name"
+            inputType="text"
+            onChange={handleInputChange}
+            value={formData.name}
+            name="name"
+            placeholder="Digite o nome"
+            autoComplete="on"
+          />
+          <Input
+            labelText="CNPJ"
+            labelFor="cnpj"
+            inputType="text"
+            onChange={handleInputChange}
+            value={formData.cnpj}
+            name="cnpj"
+            placeholder="Digite o CNPJ"
+            autoComplete="on"
+          />
+          <Input
+            labelText="Email"
+            labelFor="email"
+            inputType="email"
+            onChange={handleInputChange}
+            value={formData.email}
+            name="email"
+            placeholder="Digite o email"
+            autoComplete="on"
+          />
+          <Input
+            labelText="Telefone"
+            labelFor="phone"
+            inputType="text"
+            onChange={handleInputChange}
+            value={formData.phone}
+            name="phone"
+            placeholder="Digite o telefone"
+            autoComplete="on"
+          />
+          <Input
+            labelText="Senha"
+            labelFor="password"
+            inputType="password"
+            onChange={handleInputChange}
+            value={formData.password}
+            name="password"
+            placeholder="Digite a senha"
+            autoComplete="on"
+          />
+        </div>
+        <div className="form-block">
+          <h2 className="block-title">Informações da Oficina</h2>
+          <Input
+            labelText="Nome da Oficina"
+            labelFor="nameWorkshop"
+            inputType="text"
+            onChange={handleInputChange}
+            value={formData.nameWorkshop}
+            name="nameWorkshop"
+            placeholder="Digite o nome da oficina"
+            autoComplete="on"
+          />
+          <Input
+            labelText="Endereço da Oficina"
+            labelFor="addressWorkshop"
+            inputType="text"
+            onChange={handleInputChange}
+            value={formData.addressWorkshop}
+            name="addressWorkshop"
+            placeholder="Digite o endereço da oficina"
+            autoComplete="on"
+          />
+        </div>
         <div className="btn-container">
-          <button type="submit" className="submit-btn">
+          <button type="submit" className="submit-button">
             Atualizar Informações
           </button>
         </div>

@@ -8,8 +8,8 @@
   padding: 30px;
   box-sizing: border-box;
   position: relative;
-  background-color: #B4C3CC; 
-  box-shadow: 2px 0px 20px rgba(0, 0, 0, 0.1); 
+  background-color: #141516;
+  box-shadow: 2px 0px 20px rgba(0, 0, 0, 0.1);
 }
 
 .logo h1 {
@@ -51,23 +51,27 @@
   margin-bottom: 15px;
   border: none;
   border-radius: 10px;
-  background-color: #fff; 
-  color: #0a0e14; 
+  background-color: #fff;
+  color: #0a0e14;
   text-decoration: none;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 400;
   cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 4px rgba(105, 105, 105, 0.1);
+  transition: background-color 0.5s ease, box-shadow 0.3s ease,
+    transform 0.4s ease;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
 }
 
 .button-link:hover {
-  box-shadow: 0 4px 5px rgba(70, 70, 70, 0.1);
+  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
 }
 
 .active {
-  background-color: #0a0e14; 
-  color: #fff; 
+  background-color: #76a1bc;
+  color: #fff;
+  transform: scale(1.05);
 }
 
 .card-sb {
@@ -76,8 +80,8 @@
   align-items: center;
   padding: 15px 20px;
   justify-content: space-between;
-  background-color: #0a0e14; 
-  color: #fff; 
+  background-color: #0a0e14;
+  color: #fff;
   border-radius: 20px;
   width: 220px;
   height: 250px;
@@ -95,8 +99,8 @@
   height: 40px;
   align-items: center;
   justify-content: center;
-  background-color: #fff; 
-  color: #0a0e14; 
+  background-color: #fff;
+  color: #0a0e14;
   border-radius: 10px;
 }
 
@@ -106,43 +110,44 @@
 }
 
 .exit-link {
-  color: #adadad; 
+  color: #adadad;
   text-decoration: none;
   font-size: 14px;
 }
 
 .exit-link:hover {
-  color: #fff; 
+  color: #fff;
 }
 
 .dark-mode .sidebar {
-  background-color: #333; 
-  color: white; 
+  background-color: #333;
+  color: white;
 }
 
 .dark-mode .button-link {
-  color: rgb(0, 0, 0); 
+  color: #0a0e14;
 }
 
 .dark-mode .active {
-  background-color: #1e3a46; 
+  background-color: #6790aa;
+  color: #fff;
 }
 
 .dark-mode .card-sb {
-  background-color: #1e3a46; 
+  background-color: #1e3a46;
 }
 
 .dark-mode .btn-card {
-  background-color: #fff; 
-  color: #0a0e14; 
+  background-color: #fff;
+  color: #0a0e14;
 }
 
 .dark-mode .exit-link {
-  color: #adadad; 
+  color: #adadad;
 }
 
 .dark-mode .exit-link:hover {
-  color: white; 
+  color: white;
 }
 
 @media screen and (max-width: 768px) {
@@ -156,6 +161,10 @@
     margin-bottom: 30px;
   }
 
+  .logo h1 {
+    font-size: 20px;
+  }
+
   .section {
     margin-bottom: 15px;
   }
@@ -165,17 +174,40 @@
     margin-bottom: 10px;
   }
 
+  .links {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .links li {
+    width: 100%;
+  }
+
   .button-link {
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .card-sb {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+  }
+
+  .card-sb-text h1 {
+    font-size: 18px;
+  }
+
+  .btn-card {
+    height: 35px;
+  }
+
+  .btn-card h3 {
     font-size: 14px;
   }
 
-  .button-link.active {
-    background-color: #1e3a46; 
-  }
-
-  .Exit {
-    position: relative;
-    margin-top: 20px;
-    text-align: center;
+  .exit-link {
+    font-size: 12px;
   }
 }

@@ -1,32 +1,25 @@
 .register-services-container {
-    display: flex;
-    position: relative;
-    width: 100%;
-    background-color: #F9F9F9;
-
+  display: flex;
+  position: relative;
+  width: 100%;
+  background-color: #f9f9f9;
 }
 
 .main-content-services {
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    flex-direction: column;
-    width: calc(100% - 300px); 
-    height: 100vh;
-    padding: 30px 120px; 
-    margin-left: 300px; 
-    gap: 3rem;
-}
-
-.cardSection{
-    display: flex;
-    flex-direction: row;
-    gap: 10rem;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  flex-direction: column;
+  width: calc(100% - 300px);
+  height: 100vh;
+  padding: 30px 60px;
+  margin-left: 300px;
+  gap: 3rem;
 }
 
 .left-sb {
-    display: flex;
-    width: 300px;
-    height: auto;
-    position: fixed;
+  display: flex;
+  width: 300px;
+  height: auto;
+  position: fixed;
 }

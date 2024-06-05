@@ -10,13 +10,9 @@ function ConfigUser() {
   return (
     <div className="config-container">
       <Header />
-      <div className="content-wrapper">
-        <div className="config-area">
           <div className="form-section">
             <EditUser />
-          </div>
         </div>
-      </div>
       
       <Link to="/dashboard" className="nav-button">
         <FontAwesomeIcon icon={faArrowLeft} className="icon" /> Voltar para Dashboard

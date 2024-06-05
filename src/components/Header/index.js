@@ -10,20 +10,21 @@ import {
 import { Link } from "react-router-dom";
 import "./styles.css";
 import DecodificarToken from "../../services/tokenDecode";
+import { useEndpoint } from "../../services/EndpointContext";
 
 function Header({ toggleDarkMode }) {
   const [workshopName, setWorkshopName] = useState("Carregando...");
   const [userCircleInitials, setUserCircleInitials] = useState("");
   const [showOptions, setShowOptions] = useState(false);
+  const endpoint = useEndpoint(); // Usa o endpoint do contexto
 
   const fetchWorkshopName = async (userId) => {
     try {
-      const response = await axios.get(`https://autolog-deploy.azurewebsites.net/users/${userId}`);
+      const response = await axios.get(`${endpoint}/users/${userId}`);
       const nameWorkshop = response.data.nameWorkshop;
       setWorkshopName(nameWorkshop);
       setUserCircleInitials(getInitials(nameWorkshop));
     } catch (error) {
-      console.error("Erro ao buscar o nome do workshop:", error);
       setWorkshopName("AutoLog");
     }
   };
@@ -106,7 +107,7 @@ function Header({ toggleDarkMode }) {
             {showOptions && (
               <div className="dropdown-content">
                 <div className="dropdown-option">
-                  <Link to="/config" className="link-header">
+                  <Link to="/configUser" className="link-header">
                     <div>
                       <FontAwesomeIcon
                         icon={faUser}
@@ -117,7 +118,7 @@ function Header({ toggleDarkMode }) {
                   </Link>
                 </div>
                 <div className="dropdown-option">
-                  <Link to="/configUser" className="link-header">
+                  <Link to="/config" className="link-header">
                     <div>
                       <FontAwesomeIcon icon={faCog} className="dropdown-icon" />
                       <span>Configurações</span>
