@@ -1,121 +1,138 @@
-# Autolog
+# Sistema de Gestão de Oficinas AutoLog com BDD usando Gherkin
 
-AutoLog é um sistema de gerenciamento de oficinas mecânicas com foco em automatizar serviços manuais de registro para melhor gerenciamento de tempo e recursos. Esta API fornece funcionalidades para registrar e gerenciar informações sobre usuários, carros e manutenções em uma oficina mecânica, permitindo aos usuários controlar facilmente suas operações diárias e melhorar a eficiência de seus negócios.
-
-## Documentação
-
-Para acessar a documentação da API, consulte [Swagger Documentation](https://app.swaggerhub.com/apis/ReneBattaglia/AutoLog-api/1.0).
-
-Além disso, a documentação do projeto AutoLog está presente no código-fonte na branch `main-swagger-doc`. Nessa branch, o código possui anotações SpringDoc que permitem uma melhor visualização e testes de recursos no Swagger. As configurações de segurança nesta branch são mais permissivas para facilitar a visualização e teste dos endpoints. Por outro lado, na branch `main`, o código não contém as mesmas marcações da documentação da branch `main-swagger-doc`, e as configurações de segurança são mais restritivas, visando uma maior segurança e controle de acesso aos endpoints.
+## Descrição
+Este projeto utiliza BDD (Behavior-Driven Development) para criar cenários de teste para o sistema de gestão de oficinas AutoLog. O objetivo é validar o comportamento do sistema em diferentes situações, garantindo que ele atenda às necessidades de administradores e mecânicos para a organização e controle eficiente das atividades da oficina. Os testes são escritos em Gherkin e implementados usando Cucumber e Java no Eclipse.
 
 ## Tecnologias Utilizadas
+- Linguagem de Programação: Java
+- Framework de Teste BDD: Cucumber, Junit
+- IDE: Eclipse
 
-- Java 19
-- Spring Boot
-- Spring Security
-- Hibernate/JPA
-- MySQL
+## Funcionalidades Testadas
+* Cadastro de oficina.
+* Login de mecânicos.
+* Registro de tempo de serviço.
+* Registro de veículos.
+* Consulta de histórico de serviços.
+* Consulta de carros pela placa.
+* Atualização de informações da oficina.
+* Atualização de informações de serviço.
+* Exclusão de serviços.
+* Logout de usuários.
 
-## Configuração
+## Cenários de Teste
+~~~java
+@tag
+Feature: Sistema de Gestão de Oficinas AutoLog
+  Para transformar a gestão de oficinas mecânicas
+  Como um administrador ou mecânico
+  Eu quero usar o AutoLog para organizar e controlar eficientemente as atividades da oficina
 
-### Banco de Dados
+  # Cenário: Cadastro de Oficina
+  @tag1
+  Scenario: Cadastro de Oficina
+    Given que um administrador acessa a aplicação AutoLog
+    When ele preenche o formulário de cadastro da oficina com todas as informações necessárias
+    And clica no botão "Cadastrar"
+    Then a oficina deve ser cadastrada com sucesso
+    And uma mensagem de confirmação deve ser exibida
 
-A aplicação está configurada para utilizar um banco de dados MySQL. Certifique-se de ter o MySQL Workbench instalado e configurado corretamente. As configurações do banco de dados podem ser encontradas no arquivo `application.properties`.
+  # Cenário: Login do Mecânico
+  @tag2
+  Scenario: Login do Mecânico
+    Given que um mecânico possui uma conta na aplicação AutoLog
+    When ele acessa a página de login
+    And preenche o campo de usuário e senha corretamente
+    And clica no botão "Entrar"
+    Then ele deve ser redirecionado para a página principal da aplicação
 
-### Segurança
+  # Cenário: Registro de Tempo de Serviço
+  @tag3
+  Scenario: Registro de Tempo de Serviço
+    Given que um mecânico está logado na aplicação AutoLog
+    When ele inicia um serviço e registra o início do tempo
+    And registra o término do tempo ao finalizar o serviço
+    Then o tempo total gasto deve ser calculado
+    And registrado no sistema
 
-A API utiliza JWT (JSON Web Tokens) para autenticação e autorização. As configurações de segurança estão definidas em `SecurityConfigurations.java`.
+  # Cenário: Registro de Veículo
+  @tag4
+  Scenario: Registro de Veículo
+    Given que um mecânico está logado na aplicação AutoLog
+    When ele acessa a seção de registro de veículos
+    And adiciona um novo veículo com todas as informações necessárias
+    Then o veículo deve ser registrado com sucesso
+    And o sistema deve exibir uma mensagem de confirmação
 
-## Telas da aplicação
+  # Cenário: Consulta de Histórico de Serviços
+  @tag5
+  Scenario: Consulta de Histórico de Serviços
+    Given que um mecânico está logado na aplicação AutoLog
+    When ele acessa a seção de histórico de serviços
+    And seleciona um intervalo de datas
+    Then o sistema deve exibir todas as ordens de serviço realizadas dentro do intervalo selecionado
 
-O projeto ainda não contém a integração completa entre o Frontend e o Backend. Abaixo estão algumas capturas de tela do projeto AutoLog, mostrando o progresso atual do desenvolvimento frontend:
+  # Cenário: Consulta de Carro pela Placa
+  @tag6
+  Scenario: Consulta de Carro pela Placa
+    Given que um mecânico está logado na aplicação AutoLog
+    When ele acessa a seção de consulta de carros
+    And insere a placa do carro desejado
+    Then o sistema deve exibir as informações do carro correspondente
 
-### Tela de Cadastro
-![Cadastro_sc](https://github.com/renebttg/AutoLog/assets/114888521/74bc666b-7ecf-4807-996d-47359f4a8519)
+  # Cenário: Atualização de Informações da Oficina
+  @tag7
+  Scenario: Atualização de Informações da Oficina
+    Given que um mecânico está logado na aplicação AutoLog
+    When ele acessa a seção de configurações da oficina
+    And atualiza as informações necessárias
+    And clica no botão "Salvar"
+    Then as informações da oficina devem ser atualizadas
+    And uma mensagem de confirmação deve ser exibida
 
-### Tela de Login
-![Login_sc](https://github.com/renebttg/AutoLog/assets/114888521/ec62ef3a-96ca-4ce0-bcc5-81bba0f56b69)
+  # Cenário: Atualização de Informações do Serviço
+  @tag8
+  Scenario: Atualização de Informações do Serviço
+    Given que um mecânico está logado na aplicação AutoLog
+    When ele acessa a seção de serviços
+    And seleciona um serviço específico
+    And atualiza as informações necessárias do serviço
+    And clica no botão "Salvar"
+    Then as informações do serviço devem ser atualizadas
+    And uma mensagem de confirmação deve ser exibida
 
-### Dashboard Principal
-![Dashboard_sc](https://github.com/renebttg/AutoLog/assets/114888521/bfc7e586-bde6-4d96-89d5-478c5cb0f333)
+  # Cenário: Deletar um Serviço
+  @tag9
+  Scenario: Deletar um Serviço
+    Given que um mecânico está logado na aplicação AutoLog
+    When ele acessa a seção de serviços
+    And seleciona um serviço específico
+    And clica no botão "Deletar"
+    Then o serviço deve ser removido do sistema
+    And uma mensagem de confirmação deve ser exibida
 
+  # Cenário: Logout do Usuário
+  @tag10
+  Scenario: Logout do Usuário
+    Given que um usuário está logado na aplicação AutoLog
+    When ele clica no botão de logout
+    Then ele deve ser desconectado da aplicação
+    And redirecionado para a página de login
 
-## Autenticação
+~~~
+Após compilar os cenários, você poderá ver algo assim:
+Temos 10 Cenários e 51 passos indefinidos.
 
-Para acessar os endpoints protegidos da API, é necessário primeiro registrar um usuário fornecendo as seguintes informações:
+![autolog_1](https://github.com/renebttg/AutoLog/assets/113401757/0a23ed39-e4d3-44cf-b72c-4466a1eadd37)
 
-```json
-{
-  "name": "Nome do usuário",
-  "cnpj": "12345678901234",
-  "email": "usuario@example.com",
-  "password": "senha123",
-  "phone": "1234567890",
-  "nameWorkshop": "Oficina do Usuário",
-  "addressWorkshop": "Rua da Oficina, 123"
-}
-```
+Imagem abaixo indica que ainda não foram implementados os passos para esses cenários. O Cucumber fornece orientações sobre como implementar esses métodos.
 
-Após o registro, você pode autenticar-se enviando as seguintes informações:
+![autolog_2](https://github.com/renebttg/AutoLog/assets/113401757/0bae597b-22d8-4d18-a954-4c8f90b041bc)
 
-```json
-{
-  "email": "usuario@example.com",
-  "password": "senha123"
-}
-```
+Após a criação das classes e a utilização dos métodos indicados pelo Cucumber, obtivemos os seguintes resultados:
 
-O token JWT retornado após o login deve ser inserido no cabeçalho de autenticação (Bearer Token) ao acessar os endpoints protegidos da API.
+![autolog_3](https://github.com/renebttg/AutoLog/assets/113401757/09dad5c8-58ce-40ab-8e9b-b90dd050d3cd)
 
-## Endpoints
+Utilizando a dependência Cucumber JVM com JUnit e a anotação @RunWith, conseguimos integrar e executar os testes de BDD.
 
-### Usuários
-
-- **GET /users**: Retorna todos os usuários.
-- **GET /users/{id}**: Retorna um usuário específico pelo ID.
-- **PUT /users/{id}**: Atualiza um usuário existente.
-- **DELETE /users/{id}**: Remove um usuário existente.
-
-### Carros
-
-- **GET /cars**: Retorna todos os carros.
-- **GET /cars/{id}**: Retorna um carro específico pelo ID.
-- **POST /cars**: Registra um novo carro.
-- **PUT /cars/{id}**: Atualiza um carro existente.
-- **DELETE /cars/{id}**: Remove um carro existente.
-
-### Manutenções
-
-- **GET /maintenances**: Retorna todas as manutenções.
-- **GET /maintenances/{id}**: Retorna uma manutenção específica pelo ID.
-- **POST /maintenances**: Registra uma nova manutenção.
-- **PUT /maintenances/{id}**: Atualiza uma manutenção existente.
-- **DELETE /maintenances/{id}**: Remove uma manutenção existente.
-
-## Principais Contribuidores do Projeto
-
-Abaixo estão os desenvolvedores que contribuíram para este projeto:
-
-- **Rene Battaglia** (Back-End Developer): Responsável por todo o desenvolvimento do back-end do projeto AutoLog. Criou a lógica de negócios, integrações com o banco de dados, implementou a segurança e configurou os endpoints da API.
-
-- **Alexandre Sampaio** (UI-UX Designer e Front-End Developer): Encarregado do design de interface do usuário (UI) e da experiência do usuário (UX) para o AutoLog. Desenvolveu o front-end completo do sistema, garantindo uma experiência intuitiva e agradável para os usuários.
-
-- **Jean Israel** (Responsável por Diagramas do Projeto): Responsável pela elaboração e criação dos diagramas do projeto AutoLog. Esses diagramas forneceram uma representação visual clara da arquitetura, fluxos de dados e relacionamentos entre os componentes do sistema.
-
-- **Vitor Hugo** (Responsável pela Documentação): Encarregado da documentação do projeto AutoLog. Elaborou e organizou toda a documentação técnica e de usuário, garantindo que o projeto fosse bem documentado e de fácil compreensão para os desenvolvedores e usuários.
-
-- **Murilo Henrique** (Scrum Master): Atuou como Scrum Master no projeto AutoLog, sendo responsável por gerenciar a equipe de desenvolvimento, coordenar as atividades, facilitar as reuniões e garantir a aplicação eficaz dos princípios ágeis e práticas do Scrum.
-
-## Contribuindo
-
-Para contribuir, siga estas etapas:
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua nova funcionalidade (`git checkout -b feature/nova-funcionalidade`)
-3. Faça commit de suas alterações (`git commit -am 'Adiciona nova funcionalidade'`)
-4. Faça push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Crie um novo Pull Request
-
-## Licença
-
-Este projeto está licenciado sob a [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+![autolog_4](https://github.com/renebttg/AutoLog/assets/113401757/9c5cdf3d-55c2-455e-bb8b-f8fe965e7ae8)
