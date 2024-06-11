@@ -25,8 +25,8 @@ Este projeto utiliza Selenium IDE para automatizar e validar os testes de interf
 2. Importe o Projeto: Importe o script de testes para o Selenium IDE.
 3. Execute os Testes: Execute os testes clicando no botão "Run All Tests" no Selenium IDE.
 
-## Vídeo do Testes
-link aqui
+## Vídeo dos Testes
+[Video](https://youtu.be/flKSjEjrC68)
 
 ## Autores
 Alexandre Rodrigues Sampaio 223957
