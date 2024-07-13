@@ -1,7 +1,3 @@
-Claro, aqui está um exemplo de README para o frontend da sua aplicação:
-
----
-
 # Frontend da Aplicação Autolog
 
 Este é o frontend da aplicação Autolog, desenvolvido em React. Siga as instruções abaixo para configurar e executar o projeto.
