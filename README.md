@@ -28,7 +28,10 @@ A API utiliza JWT (JSON Web Tokens) para autenticação e autorização. As conf
 
 ## Telas da aplicação
 
-O projeto ainda não contém a integração completa entre o Frontend e o Backend. Abaixo estão algumas capturas de tela do projeto AutoLog, mostrando o progresso atual do desenvolvimento frontend:
+### Front-End Local
+A aplicação possui um frontend local que está localizado na branch `main-frontend`. Para obter informações detalhadas sobre como configurar e executar o frontend, por favor, leia o README presente nessa branch.
+
+
 
 ### Tela de Cadastro
 ![Cadastro_sc](https://github.com/renebttg/AutoLog/assets/114888521/74bc666b-7ecf-4807-996d-47359f4a8519)
