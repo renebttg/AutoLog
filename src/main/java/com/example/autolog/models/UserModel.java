@@ -33,6 +33,7 @@ public class UserModel implements Serializable, UserDetails {
     private String nameWorkshop;
     private String addressWorkshop;
     private UserRole role;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<CarModel> cars;
