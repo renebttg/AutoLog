@@ -104,15 +104,15 @@ O token JWT retornado após o login deve ser inserido no cabeçalho de autentica
 
 Abaixo estão os desenvolvedores que contribuíram para este projeto:
 
-- **[Rene Battaglia](https://github.com/renebttg)** (Back-End Developer): Responsável por todo o desenvolvimento do back-end do projeto AutoLog. Criou a lógica de negócios, integrações com o banco de dados, implementou a segurança e configurou os endpoints da API.
+- [Rene Battaglia](https://github.com/renebttg) **(Back-End Developer)**: Responsável por todo o desenvolvimento do back-end do projeto AutoLog. Criou a lógica de negócios, integrações com o banco de dados, implementou a segurança e configurou os endpoints da API.
 
-- **[Alexandre Sampaio](https://github.com/Ale-Sampaio)** (UI-UX Designer e Front-End Developer): Encarregado do design de interface do usuário (UI) e da experiência do usuário (UX) para o AutoLog. Desenvolveu o front-end completo do sistema, garantindo uma experiência intuitiva e agradável para os usuários.
+- [Alexandre Sampaio](https://github.com/Ale-Sampaio) **(UI-UX Designer e Front-End Developer)**: Encarregado do design de interface do usuário (UI) e da experiência do usuário (UX) para o AutoLog. Desenvolveu o front-end completo do sistema, garantindo uma experiência intuitiva e agradável para os usuários.
 
-- **[Jean Israel](https://github.com/Jidsx)** (Responsável por Diagramas do Projeto): Responsável pela elaboração e criação dos diagramas do projeto AutoLog. Esses diagramas forneceram uma representação visual clara da arquitetura, fluxos de dados e relacionamentos entre os componentes do sistema.
+- [Jean Israel](https://github.com/Jidsx) **(Responsável por Diagramas do Projeto)**: Responsável pela elaboração e criação dos diagramas do projeto AutoLog. Esses diagramas forneceram uma representação visual clara da arquitetura, fluxos de dados e relacionamentos entre os componentes do sistema.
 
-- **[Vitor Hugo](https://github.com/Testorugo)** (Responsável pela Documentação): Encarregado da documentação do projeto AutoLog. Elaborou e organizou toda a documentação técnica e de usuário, garantindo que o projeto fosse bem documentado e de fácil compreensão para os desenvolvedores e usuários.
+- [Vitor Hugo](https://github.com/Testorugo) **(Responsável pela Documentação)**: Encarregado da documentação do projeto AutoLog. Elaborou e organizou toda a documentação técnica e de usuário, garantindo que o projeto fosse bem documentado e de fácil compreensão para os desenvolvedores e usuários.
 
-- **[Murilo Henrique](https://github.com/motielk)** (Scrum Master): Atuou como Scrum Master no projeto AutoLog, sendo responsável por gerenciar a equipe de desenvolvimento, coordenar as atividades, facilitar as reuniões e garantir a aplicação eficaz dos princípios ágeis e práticas do Scrum.
+- [Murilo Henrique](https://github.com/motielk) **(Scrum Master)**: Atuou como Scrum Master no projeto AutoLog, sendo responsável por gerenciar a equipe de desenvolvimento, coordenar as atividades, facilitar as reuniões e garantir a aplicação eficaz dos princípios ágeis e práticas do Scrum.
 
 ## Contribuindo
 
