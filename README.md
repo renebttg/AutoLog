@@ -33,7 +33,8 @@ A aplicação possui um frontend local que está localizado na branch `main-fron
 
 
 ### Tela Principal
-![Homepage](https://github.com/user-attachments/assets/5e2c6718-76e3-4ef1-bd50-d823d646c295)
+![Homepage1](https://github.com/user-attachments/assets/db152133-5b95-4df1-a8d9-6a93d4d74076)
+
 
 ### Tela de Cadastro
 ![Tela de cadastro](https://github.com/user-attachments/assets/38822b86-9fbc-4ba1-a2ff-218ae9206680)
