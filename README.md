@@ -103,6 +103,22 @@ O token JWT retornado após o login deve ser inserido no cabeçalho de autentica
 - **PUT /maintenances/{id}**: Atualiza uma manutenção existente.
 - **DELETE /maintenances/{id}**: Remove uma manutenção existente.
 
+## Histórico de Versões
+
+- **0.1**: Ideia inicial do projeto, focando na criação dos modelos básicos como usuários e carros. Estabeleceu a fundação para o gerenciamento de dados no sistema.
+- **0.2**: Implementação da relação entre usuários e carros, além do desenvolvimento do controlador de manutenção, permitindo uma gestão mais integrada entre as entidades.
+- **0.3**: Expansão das relações entre usuários, carros e manutenções, proporcionando um sistema mais robusto e coerente.
+- **0.4**: Introdução de Spring Security e autenticação via Token JWT, aumentando a segurança e o controle de acesso à API.
+- **0.5(Atual)**: Configurações de CORS implementadas, permitindo que o front-end local se comunique adequadamente com a API, além de ajustes nas configurações de segurança para facilitar o desenvolvimento.
+
+## Roadmap
+
+- **Integração Completa**: Implementação da comunicação fluida entre o front-end e o back-end, garantindo uma experiência de usuário coesa e eficiente.
+- **Implementação de um gerador de relatórios**: Desenvolvimento de funcionalidades para gerar relatórios de manutenções e financeiros, oferecendo insights e análises para os usuários.
+- **Aba de Peças**: Criação de uma seção dedicada a peças, possibilitando registros, alterações e um contador de peças, para uma gestão mais eficiente dos recursos.
+- **Reestilização do Frontend**: Transformação da interface do usuário para um design mais único e dinâmico, com maior intensidade visual e melhor experiência para os usuários.
+- **Versão Estável (1.0)**: Refinamento de todas as funcionalidades e correção de bugs, visando entregar uma versão pronta para produção.
+
 ## Principais Contribuidores do Projeto
 
 Abaixo estão os desenvolvedores que contribuíram para este projeto:
@@ -126,22 +142,6 @@ Para contribuir, siga estas etapas:
 3. Faça commit de suas alterações (`git commit -am 'Adiciona nova funcionalidade'`)
 4. Faça push para a branch (`git push origin feature/nova-funcionalidade`)
 5. Crie um novo Pull Request
-
-## Histórico de Versões
-
-- **0.1**: Ideia inicial do projeto, focando na criação dos modelos básicos como usuários e carros. Estabeleceu a fundação para o gerenciamento de dados no sistema.
-- **0.2**: Implementação da relação entre usuários e carros, além do desenvolvimento do controlador de manutenção, permitindo uma gestão mais integrada entre as entidades.
-- **0.3**: Expansão das relações entre usuários, carros e manutenções, proporcionando um sistema mais robusto e coerente.
-- **0.4**: Introdução de Spring Security e autenticação via Token JWT, aumentando a segurança e o controle de acesso à API.
-- **0.5(Atual)**: Configurações de CORS implementadas, permitindo que o front-end local se comunique adequadamente com a API, além de ajustes nas configurações de segurança para facilitar o desenvolvimento.
-
-## Roadmap
-
-- **Integração Completa**: Implementação da comunicação fluida entre o front-end e o back-end, garantindo uma experiência de usuário coesa e eficiente.
-- **Implementação de um gerador de relatórios**: Desenvolvimento de funcionalidades para gerar relatórios de manutenções e financeiros, oferecendo insights e análises para os usuários.
-- **Aba de Peças**: Criação de uma seção dedicada a peças, possibilitando registros, alterações e um contador de peças, para uma gestão mais eficiente dos recursos.
-- **Reestilização do Frontend**: Transformação da interface do usuário para um design mais único e dinâmico, com maior intensidade visual e melhor experiência para os usuários.
-- **Versão Estável (1.0)**: Refinamento de todas as funcionalidades e correção de bugs, visando entregar uma versão pronta para produção.
 
 ## Licença
 
