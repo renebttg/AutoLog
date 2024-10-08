@@ -1,4 +1,4 @@
-# Autolog
+# Autolog 0.5
 
 AutoLog é um sistema de gerenciamento de oficinas mecânicas com foco em automatizar serviços manuais de registro para melhor gerenciamento de tempo e recursos. Esta API fornece funcionalidades para registrar e gerenciar informações sobre usuários, carros e manutenções em uma oficina mecânica, permitindo aos usuários controlar facilmente suas operações diárias e melhorar a eficiência de seus negócios.
 
