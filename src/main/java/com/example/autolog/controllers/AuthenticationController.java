@@ -7,6 +7,8 @@ import com.example.autolog.enums.UserRole;
 import com.example.autolog.models.UserModel;
 import com.example.autolog.repositories.UserRepository;
 import com.example.autolog.security.TokenService;
+import com.example.autolog.services.EmailService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class AuthenticationController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@Valid @RequestBody UserLoginDTO userLoginRecordDTO) {
@@ -72,6 +77,46 @@ public class AuthenticationController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
+
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Object> forgotPassword(@RequestParam String email, HttpServletRequest request) {
+        UserModel user = userRepository.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        String resetToken = tokenService.passwordResetToken(user);
+
+        String appUrlBase = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        String resetUrl = appUrlBase + "/auth/reset-password?token=" + resetToken;
+
+        emailService.sendResetPasswordEmail(user.getEmail(), resetUrl);
+
+        return ResponseEntity.ok("Password reset email sent");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Object> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        boolean isValidToken = tokenService.validateResetToken(token);
+        if (!isValidToken) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
+        }
+
+        String email = tokenService.extractEmailFromToken(token);
+        UserModel user = userRepository.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(newPassword);
+        user.setPassword(encryptedPassword);
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok("Password has been reset successfully");
+    }
+
 
 }
 
