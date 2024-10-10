@@ -44,7 +44,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<Object> login(@Valid @RequestBody UserLoginDTO userLoginRecordDTO) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
+            authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userLoginRecordDTO.email(), userLoginRecordDTO.password()));
 
             UserModel user = userRepository.findByEmail(userLoginRecordDTO.email());
@@ -73,7 +73,7 @@ public class AuthenticationController {
         newUser.setRole(UserRole.USER);
         newUser.setPassword(encryptedPassword);
 
-        UserModel savedUser = userRepository.save(newUser);
+        userRepository.save(newUser);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
