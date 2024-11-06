@@ -1,6 +1,7 @@
 package com.example.autolog.security;
 
 import com.example.autolog.repositories.UserRepository;
+import com.example.autolog.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.example.autolog.security;
+package com.example.autolog.services;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -6,7 +6,6 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.autolog.models.UserModel;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -77,7 +76,7 @@ public class TokenService {
                     .withIssuer("auth-autolog-api")
                     .withClaim("purpose", "password-reset")
                     .build();
-            var decodedJWT = verifier.verify(token);
+            verifier.verify(token);
 
             return true;
 
@@ -94,6 +93,7 @@ public class TokenService {
                     .build();
             var decodedJWT = verifier.verify(token);
             return decodedJWT.getSubject();
+            
         } catch (JWTVerificationException exception) {
             throw  new RuntimeException("Error extracting email token");
         }

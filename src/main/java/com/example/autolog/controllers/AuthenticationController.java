@@ -6,8 +6,9 @@ import com.example.autolog.dtos.UserRecordDTO;
 import com.example.autolog.enums.UserRole;
 import com.example.autolog.models.UserModel;
 import com.example.autolog.repositories.UserRepository;
-import com.example.autolog.security.TokenService;
+import com.example.autolog.services.TokenService;
 import com.example.autolog.services.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -16,11 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
+import java.io.IOException;
 /**
  * @author Rene
  */
@@ -80,7 +80,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<Object> forgotPassword(@RequestParam String email, HttpServletRequest request) {
+    public ResponseEntity<Object> forgotPassword(@RequestParam String email, HttpServletRequest request) throws MessagingException, IOException {
         UserModel user = userRepository.findByEmail(email);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
@@ -88,8 +88,8 @@ public class AuthenticationController {
 
         String resetToken = tokenService.passwordResetToken(user);
 
-        String appUrlBase = request.getRequestURL().toString().replace(request.getRequestURI(), "");
-        String resetUrl = appUrlBase + "/auth/reset-password?token=" + resetToken;
+        String resetUrl = request.getRequestURL().toString().replace(request.getRequestURI(), "")
+                + "/auth/reset-password?token=" + resetToken;
 
         emailService.sendResetPasswordEmail(user.getEmail(), resetUrl);
 
@@ -117,6 +117,16 @@ public class AuthenticationController {
         return ResponseEntity.ok("Password has been reset successfully");
     }
 
+    @GetMapping("/reset-password")
+    public ResponseEntity<Object> showResetPasswordPage(@RequestParam String token) {
+        boolean isValidToken = tokenService.validateResetToken(token);
+
+        if (!isValidToken) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token");
+        }
+
+        return ResponseEntity.ok("Token is valid, please enter your new password.");
+    }
 
 }
 
