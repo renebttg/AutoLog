@@ -49,7 +49,7 @@ public class AuthenticationController {
 
             UserModel user = userRepository.findByEmail(userLoginRecordDTO.email());
             String token = tokenService.generateToken(user);
-            LoginResponseDTO responseDTO = new LoginResponseDTO(token);
+            LoginResponseDTO responseDTO = new LoginResponseDTO(token , user.getIdUser());
             return ResponseEntity.ok(responseDTO);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email/password combination");
