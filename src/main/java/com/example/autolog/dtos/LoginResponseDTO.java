@@ -1,4 +1,4 @@
 package com.example.autolog.dtos;
 
-public record LoginResponseDTO(String token, Long userId) {
+public record LoginResponseDTO(String token) {
 }

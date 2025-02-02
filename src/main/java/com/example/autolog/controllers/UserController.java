@@ -1,6 +1,8 @@
 package com.example.autolog.controllers;
 
 import com.example.autolog.dtos.UserRecordDTO;
+import com.example.autolog.exceptions.AccessDeniedException;
+import com.example.autolog.exceptions.UserNotFoundException;
 import com.example.autolog.models.UserModel;
 import com.example.autolog.repositories.UserRepository;
 import jakarta.validation.Valid;
@@ -30,13 +32,16 @@ public class UserController {
     public ResponseEntity<Object> getAllUsers() {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (authenticatedUser.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            List<UserModel> allUsers = userRepository.findAll();
-            return ResponseEntity.status(HttpStatus.OK).body(allUsers);
+        authenticatedUser.getAuthorities().stream()
+                .filter(auth -> auth.getAuthority().equals("ROLE_ADMIN"))
+                .findFirst()
+                .orElseThrow(() -> new AccessDeniedException("Unauthorized access to user information."));
 
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access to user information.");
-        }
+        List<UserModel> allUsers = Optional.of(userRepository.findAll())
+                .filter(users -> !users.isEmpty())
+                .orElseThrow(() -> new UserNotFoundException("No users found in the database."));
+
+        return ResponseEntity.status(HttpStatus.OK).body(allUsers);
     }
 
 
@@ -45,23 +50,21 @@ public class UserController {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (authenticatedUser.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            Optional<UserModel> userOptional = userRepository.findById(id);
-            if (userOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(userOptional.get());
+            UserModel user = userRepository.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+
+            return ResponseEntity.status(HttpStatus.OK).body(user);
 
         } else {
             long authenticatedUserId = ((UserModel) authenticatedUser).getIdUser();
             if (authenticatedUserId != id) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access to user information.");
+                throw new AccessDeniedException("Unauthorized access to user information.");
             }
 
-            Optional<UserModel> userOptional = userRepository.findById(id);
-            if (userOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(userOptional.get());
+            UserModel user = userRepository.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+
+            return ResponseEntity.status(HttpStatus.OK).body(user);
         }
     }
 
@@ -70,35 +73,35 @@ public class UserController {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (authenticatedUser.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            Optional<UserModel> userOptional = userRepository.findById(id);
-            if (userOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-            }
-            UserModel userModel = userOptional.get();
+            UserModel userModel = userRepository.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+
             BeanUtils.copyProperties(userRecordDto, userModel);
 
             if (userRecordDto.password() != null && !userRecordDto.password().isEmpty()) {
                 String encryptedPassword = new BCryptPasswordEncoder().encode(userRecordDto.password());
                 userModel.setPassword(encryptedPassword);
             }
+
             UserModel updatedUser = userRepository.save(userModel);
             return ResponseEntity.ok(updatedUser);
 
         } else {
             long authenticatedUserId = ((UserModel) authenticatedUser).getIdUser();
             if (authenticatedUserId != id) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access to update user information.");
+                throw new AccessDeniedException("Unauthorized access to update user information.");
             }
-            Optional<UserModel> userOptional = userRepository.findById(id);
-            if (userOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-            }
-            UserModel userModel = userOptional.get();
+
+            UserModel userModel = userRepository.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+
             BeanUtils.copyProperties(userRecordDto, userModel);
+
             if (userRecordDto.password() != null && !userRecordDto.password().isEmpty()) {
                 String encryptedPassword = new BCryptPasswordEncoder().encode(userRecordDto.password());
                 userModel.setPassword(encryptedPassword);
             }
+
             UserModel updatedUser = userRepository.save(userModel);
             return ResponseEntity.ok(updatedUser);
         }
@@ -109,25 +112,26 @@ public class UserController {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (authenticatedUser.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            Optional<UserModel> userOptional = userRepository.findById(id);
-            if (userOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-            }
-            userRepository.delete(userOptional.get());
+            UserModel userModel = userRepository.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+
+            userRepository.delete(userModel);
             return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully");
+
         } else {
             long authenticatedUserId = ((UserModel) authenticatedUser).getIdUser();
             if (authenticatedUserId != id) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access to delete user account.");
+                throw new AccessDeniedException("Unauthorized access to delete user account.");
             }
-            Optional<UserModel> userOptional = userRepository.findById(id);
-            if (userOptional.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-            }
-            userRepository.delete(userOptional.get());
+
+            UserModel userModel = userRepository.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+
+            userRepository.delete(userModel);
             return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully");
         }
     }
+
 
 
 }

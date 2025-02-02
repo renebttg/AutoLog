@@ -3,6 +3,10 @@ package com.example.autolog.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +20,10 @@ import java.util.List;
         @UniqueConstraint(columnNames = {"user_id", "licencePlate"}),
         @UniqueConstraint(columnNames = {"user_id", "chassisNumber"})
 })
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CarModel implements Serializable {
     private static final long serialVersionUID = 1l;
 
@@ -39,75 +47,4 @@ public class CarModel implements Serializable {
     @JsonManagedReference
     private List<MaintenanceModel> maintenanceHistory;
 
-    public long getIdCar() {
-        return idCar;
-    }
-
-    public void setIdCar(long idCar) {
-        this.idCar = idCar;
-    }
-
-    public UserModel getUser() {
-        return user;
-    }
-
-    public void setUser(UserModel user) {
-        this.user = user;
-    }
-
-    public String getOwnerName() {
-        return ownerName;
-    }
-
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
-    }
-
-    public String getCarBrand() {
-        return carBrand;
-    }
-
-    public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getLicencePlate() {
-        return licencePlate;
-    }
-
-    public void setLicencePlate(String licencePlate) {
-        this.licencePlate = licencePlate;
-    }
-
-    public String getChassisNumber() {
-        return chassisNumber;
-    }
-
-    public void setChassisNumber(String chassisNumber) {
-        this.chassisNumber = chassisNumber;
-    }
-
-    public List<MaintenanceModel> getMaintenanceHistory() {
-        return maintenanceHistory;
-    }
-
-    public void setMaintenanceHistory(List<MaintenanceModel> maintenanceHistory) {
-        this.maintenanceHistory = maintenanceHistory;
-    }
 }

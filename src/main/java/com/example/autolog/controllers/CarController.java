@@ -1,6 +1,8 @@
 package com.example.autolog.controllers;
 
 import com.example.autolog.dtos.CarRecordDTO;
+import com.example.autolog.exceptions.CarNotFoundException;
+import com.example.autolog.exceptions.UserNotFoundException;
 import com.example.autolog.models.CarModel;
 import com.example.autolog.models.UserModel;
 import com.example.autolog.repositories.CarRepository;
@@ -33,56 +35,44 @@ public class CarController {
         var carModel = new CarModel();
         BeanUtils.copyProperties(carRecordDto, carModel);
 
-        Optional<UserModel> userOptional = userRepository.findById(userId);
-        if (userOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
-        }
-        UserModel user = userOptional.get();
+        UserModel user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
+
         carModel.setUser(user);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(carRepository.save(carModel));
+        CarModel savedCar = carRepository.save(carModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCar);
     }
 
     @GetMapping("/users/{userId}/cars")
     public ResponseEntity<Object> getAllCarsForUser(@PathVariable Long userId) {
-        Optional<UserModel> userOptional = userRepository.findById(userId);
-        if (userOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
-        }
+        UserModel user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
 
-        List<CarModel> cars = carRepository.findByUser(userOptional.get());
+        List<CarModel> cars = carRepository.findByUser(user);
 
         return ResponseEntity.ok(cars);
     }
 
     @GetMapping("/users/{userId}/cars/{carId}")
-    public ResponseEntity<Object> getCarByUserIdAndCarId(@PathVariable Long userId, @PathVariable Long carId) {
-        Optional<UserModel> userOptional = userRepository.findById(userId);
-        if (userOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
-        }
+    public ResponseEntity<CarModel> getCarByUserIdAndCarId(@PathVariable Long userId, @PathVariable Long carId) {
+        UserModel user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
 
-        Optional<CarModel> carOptional = carRepository.findByUserAndIdCar(userOptional.get(), carId);
-        if (carOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not Found");
-        }
+        CarModel car = carRepository.findByUserAndIdCar(user, carId)
+                .orElseThrow(() -> new CarNotFoundException("Car with ID " + carId + " not found for user with ID " + userId));
 
-        return ResponseEntity.ok(carOptional.get());
+        return ResponseEntity.ok(car);
     }
 
     @PutMapping("/users/{userId}/cars/{carId}")
     public ResponseEntity<Object> updateCar(@PathVariable Long userId, @PathVariable Long carId, @RequestBody @Valid CarRecordDTO carRecordDto) {
-        Optional<UserModel> userOptional = userRepository.findById(userId);
-        if (userOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
-        }
+        UserModel user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
 
-        Optional<CarModel> carOptional = carRepository.findByUserAndIdCar(userOptional.get(), carId);
-        if (carOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not Found");
-        }
+        CarModel existingCar = carRepository.findByUserAndIdCar(user, carId)
+                .orElseThrow(() -> new CarNotFoundException("Car with ID " + carId + " not found for user with ID " + userId));
 
-        CarModel existingCar = carOptional.get();
         BeanUtils.copyProperties(carRecordDto, existingCar, "idCar", "user", "maintenanceHistory");
 
         CarModel updatedCar = carRepository.save(existingCar);
@@ -92,18 +82,14 @@ public class CarController {
 
     @DeleteMapping("/users/{userId}/cars/{carId}")
     public ResponseEntity<Object> deleteCar(@PathVariable Long userId, @PathVariable Long carId) {
-        Optional<UserModel> userOptional = userRepository.findById(userId);
-        if (userOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found.");
-        }
+        UserModel user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
 
-        Optional<CarModel> carOptional = carRepository.findByUserAndIdCar(userOptional.get(), carId);
-        if (carOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Car not Found");
-        }
+        CarModel car = carRepository.findByUserAndIdCar(user, carId)
+                .orElseThrow(() -> new CarNotFoundException("Car with ID " + carId + " not found for user with ID " + userId));
 
-        carRepository.delete(carOptional.get());
-        return ResponseEntity.ok("Deleted Successfully");
+        carRepository.delete(car);
+        return ResponseEntity.ok("Car Deleted Successfully");
     }
 
 }

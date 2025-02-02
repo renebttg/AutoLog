@@ -3,6 +3,7 @@ package com.example.autolog.controllers;
 import com.example.autolog.dtos.LoginResponseDTO;
 import com.example.autolog.dtos.UserLoginDTO;
 import com.example.autolog.dtos.UserRecordDTO;
+import com.example.autolog.enums.TrustedAdminDomains;
 import com.example.autolog.enums.UserRole;
 import com.example.autolog.models.UserModel;
 import com.example.autolog.repositories.UserRepository;
@@ -49,13 +50,13 @@ public class AuthenticationController {
 
             UserModel user = userRepository.findByEmail(userLoginRecordDTO.email());
             String token = tokenService.generateToken(user);
-            LoginResponseDTO responseDTO = new LoginResponseDTO(token , user.getIdUser());
+            LoginResponseDTO responseDTO = new LoginResponseDTO(token);
             return ResponseEntity.ok(responseDTO);
+
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email/password combination");
         }
     }
-
 
     @PostMapping("/register")
     public ResponseEntity<Object> register(@Valid @RequestBody UserRecordDTO userRecordDTO) {
@@ -78,6 +79,25 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
+    @PostMapping("/register-admin")
+    public ResponseEntity<Object> registerAdmin(@Valid @RequestBody UserRecordDTO userRecordDTO) {
+        if (!TrustedAdminDomains.isTrustedDomain(userRecordDTO.email())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unauthorized email domain for admin creation");
+        }
+
+        if (userRepository.findByEmail(userRecordDTO.email()) != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already in use");
+        }
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(userRecordDTO.password());
+        UserModel newAdmin = new UserModel();
+        BeanUtils.copyProperties(userRecordDTO, newAdmin);
+        newAdmin.setRole(UserRole.ADMIN);
+        newAdmin.setPassword(encryptedPassword);
+
+        userRepository.save(newAdmin);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Admin registered successfully");
+    }
 
     @PostMapping("/forgot-password")
     public ResponseEntity<Object> forgotPassword(@RequestParam String email, HttpServletRequest request) throws MessagingException, IOException {
