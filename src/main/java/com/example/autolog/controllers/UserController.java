@@ -1,6 +1,7 @@
 package com.example.autolog.controllers;
 
 import com.example.autolog.dtos.UserRecordDTO;
+import com.example.autolog.dtos.UserResponseDTO;
 import com.example.autolog.exceptions.AccessDeniedException;
 import com.example.autolog.exceptions.UserNotFoundException;
 import com.example.autolog.models.UserModel;
@@ -10,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +29,27 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDTO> getAuthenticatedUser(@AuthenticationPrincipal UserModel user) {
+        if (user == null) {
+            throw new UserNotFoundException("Usuário não autenticado.");
+        }
+
+        UserResponseDTO userResponseDTO = new UserResponseDTO(
+                user.getIdUser(),
+                user.getName(),
+                user.getCnpj(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getNameWorkshop(),
+                user.getAddressWorkshop(),
+                user.getRole()
+        );
+
+        return ResponseEntity.ok(userResponseDTO);
+    }
+
 
     @GetMapping("/users")
     public ResponseEntity<Object> getAllUsers() {
