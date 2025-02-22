@@ -49,7 +49,7 @@ public class PartsService {
 
     public ResponseEntity<Object> getPartById(@PathVariable Long id) {
         PartsModel part = partsRepository.findById(id)
-                .orElseThrow(() -> new PartNotFoundException("Part with ID" + id + "Not found"));
+                .orElseThrow(() -> new PartNotFoundException("Part with ID " + id + " Not found"));
 
         return ResponseEntity.ok(part);
     }
@@ -57,7 +57,7 @@ public class PartsService {
 
     public ResponseEntity<Object> updatePart(@PathVariable Long id, @RequestBody @Valid PartsRecordDTO partsRecordDTO) {
         PartsModel existingPart = partsRepository.findById(id)
-                .orElseThrow(() -> new PartNotFoundException("Part with ID" + id + "Not found"));
+                .orElseThrow(() -> new PartNotFoundException("Part with ID " + id + " Not found"));
 
         BeanUtils.copyProperties(partsRecordDTO, existingPart, "idPart");
 
@@ -69,7 +69,7 @@ public class PartsService {
 
     public ResponseEntity<Object> deletePart(@PathVariable Long id) {
         PartsModel part = partsRepository.findById(id)
-                .orElseThrow(() -> new PartNotFoundException("Part with ID" + id + "Not found"));
+                .orElseThrow(() -> new PartNotFoundException("Part with ID " + id + " Not found"));
 
         partsRepository.delete(part);
         return ResponseEntity.ok("Part deleted successfully.");
