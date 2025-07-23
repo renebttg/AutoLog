@@ -20,14 +20,14 @@ public class LogModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idLog;
 
-    private String entidade;
-    private String acao;
-    private String usuario;
-    private LocalDateTime dataHora;
+    private String entity;
+    private String action;
+    private String user;
+    private LocalDateTime dateTime;
 
     @Lob
-    private String antes;
+    private String before;
 
     @Lob
-    private String depois;
+    private String after;
 }
