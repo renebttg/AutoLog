@@ -1,6 +1,6 @@
-package com.example.autolog.infrastructure.service;
+package com.example.autolog.application.usecase.auth;
 
-import com.example.autolog.domain.repository.UserRepository;
+import com.example.autolog.infrastructure.persistance.jpa.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 public class AuthorizationService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    UserJpaRepository userJpaRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username);
+        return userJpaRepository.findByEmail(username);
     }
 }

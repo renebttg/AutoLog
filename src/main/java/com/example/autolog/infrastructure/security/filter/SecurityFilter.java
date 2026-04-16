@@ -1,7 +1,7 @@
-package com.example.autolog.infrastructure.security;
+package com.example.autolog.infrastructure.security.filter;
 
-import com.example.autolog.domain.repository.UserRepository;
-import com.example.autolog.infrastructure.service.TokenService;
+import com.example.autolog.infrastructure.persistance.jpa.UserJpaRepository;
+import com.example.autolog.infrastructure.security.token.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,14 +26,14 @@ public class SecurityFilter extends OncePerRequestFilter {
     TokenService tokenService;
 
     @Autowired
-    UserRepository userRepository;
+    UserJpaRepository userJpaRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
         if(token != null){
             var login = tokenService.validateToken(token);
-            UserDetails user = userRepository.findByEmail(login);
+            UserDetails user = userJpaRepository.findByEmail(login);
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

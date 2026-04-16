@@ -1,4 +1,4 @@
-package com.example.autolog.infrastructure.service;
+package com.example.autolog.infrastructure.security.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -1,4 +1,4 @@
-package com.example.autolog.infrastructure.service;
+package com.example.autolog.application.usecase.maintenance;
 
 import com.example.autolog.presentation.request.SaveMaintenanceRequest;
 import com.example.autolog.domain.exception.CarNotFoundException;
@@ -7,9 +7,9 @@ import com.example.autolog.domain.exception.UserNotFoundException;
 import com.example.autolog.infrastructure.persistance.entity.VehicleEntity;
 import com.example.autolog.infrastructure.persistance.entity.MaintenanceEntity;
 import com.example.autolog.infrastructure.persistance.entity.UserEntity;
-import com.example.autolog.domain.repository.CarRepository;
-import com.example.autolog.domain.repository.MaintenanceRepository;
-import com.example.autolog.domain.repository.UserRepository;
+import com.example.autolog.infrastructure.persistance.jpa.VehicleJpaRepository;
+import com.example.autolog.infrastructure.persistance.jpa.MaintenanceJpaRepository;
+import com.example.autolog.infrastructure.persistance.jpa.UserJpaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +28,22 @@ import java.util.List;
 public class MaintenanceService {
 
     @Autowired
-    MaintenanceRepository maintenanceRepository;
+    MaintenanceJpaRepository maintenanceRepository;
 
     @Autowired
-    CarRepository carRepository;
+    VehicleJpaRepository vehicleJpaRepository;
 
     @Autowired
-    UserRepository userRepository;
+    UserJpaRepository userJpaRepository;
 
     public ResponseEntity<Object> saveMaintenance(@PathVariable Long userId, @PathVariable Long carId, @RequestBody @Valid SaveMaintenanceRequest maintenanceDTO) {
         var maintenanceModel = new MaintenanceEntity();
         BeanUtils.copyProperties(maintenanceDTO, maintenanceModel);
 
-        UserEntity user = userRepository.findById(userId)
+        UserEntity user = userJpaRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
 
-        VehicleEntity car = carRepository.findByUserAndIdCar(user, carId)
+        VehicleEntity car = vehicleJpaRepository.findByUserAndIdCar(user, carId)
                 .orElseThrow(() -> new CarNotFoundException("Car with ID " + carId + " not found for user with ID " + userId));
 
         maintenanceModel.setCar(car);
@@ -53,10 +53,10 @@ public class MaintenanceService {
     }
 
     public ResponseEntity<Object> getAllMaintenanceForCar(@PathVariable Long userId, @PathVariable Long carId) {
-        UserEntity user = userRepository.findById(userId)
+        UserEntity user = userJpaRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
 
-        VehicleEntity car = carRepository.findByUserAndIdCar(user, carId)
+        VehicleEntity car = vehicleJpaRepository.findByUserAndIdCar(user, carId)
                 .orElseThrow(() -> new CarNotFoundException("Car with ID " + carId + " not found for user with ID " + userId));
 
         List<MaintenanceEntity> maintenanceList = car.getMaintenanceHistory();
@@ -64,10 +64,10 @@ public class MaintenanceService {
     }
 
     public ResponseEntity<Object> getMaintenanceForCar(@PathVariable Long userId, @PathVariable Long carId, @PathVariable Long maintenanceId) {
-        UserEntity user = userRepository.findById(userId)
+        UserEntity user = userJpaRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
 
-        VehicleEntity car = carRepository.findByUserAndIdCar(user, carId)
+        VehicleEntity car = vehicleJpaRepository.findByUserAndIdCar(user, carId)
                 .orElseThrow(() -> new CarNotFoundException("Car with ID " + carId + " not found for user with ID " + userId));
 
         MaintenanceEntity maintenance = maintenanceRepository.findById(maintenanceId)
@@ -77,10 +77,10 @@ public class MaintenanceService {
     }
 
     public ResponseEntity<Object> updateMaintenance(@PathVariable Long userId, @PathVariable Long carId, @PathVariable Long maintenanceId, @RequestBody @Valid SaveMaintenanceRequest maintenanceDTO) {
-        UserEntity user = userRepository.findById(userId)
+        UserEntity user = userJpaRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
 
-        VehicleEntity car = carRepository.findByUserAndIdCar(user, carId)
+        VehicleEntity car = vehicleJpaRepository.findByUserAndIdCar(user, carId)
                 .orElseThrow(() -> new CarNotFoundException("Car with ID " + carId + " not found for user with ID " + userId));
 
         MaintenanceEntity existingMaintenance = maintenanceRepository.findById(maintenanceId)
@@ -94,10 +94,10 @@ public class MaintenanceService {
     }
 
     public ResponseEntity<Object> deleteMaintenance(@PathVariable Long userId, @PathVariable Long carId, @PathVariable Long maintenanceId) {
-        UserEntity user = userRepository.findById(userId)
+        UserEntity user = userJpaRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
 
-        VehicleEntity car = carRepository.findByUserAndIdCar(user, carId)
+        VehicleEntity car = vehicleJpaRepository.findByUserAndIdCar(user, carId)
                 .orElseThrow(() -> new CarNotFoundException("Car with ID " + carId + " not found for user with ID " + userId));
 
         MaintenanceEntity maintenance = maintenanceRepository.findById(maintenanceId)

@@ -3,7 +3,7 @@ package com.example.autolog.presentation.controller;
 
 import com.example.autolog.presentation.request.UserLoginRquest;
 import com.example.autolog.presentation.request.RegisterWorkshopRequest;
-import com.example.autolog.infrastructure.service.AuthenticationService;
+import com.example.autolog.application.usecase.auth.AuthenticationService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

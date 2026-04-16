@@ -1,10 +1,10 @@
-package com.example.autolog.infrastructure.service;
+package com.example.autolog.application.usecase.part;
 
 import com.example.autolog.presentation.request.SavePartRequest;
 import com.example.autolog.domain.exception.PartAlreadyExistsException;
 import com.example.autolog.domain.exception.PartNotFoundException;
 import com.example.autolog.infrastructure.persistance.entity.PartEntity;
-import com.example.autolog.domain.repository.PartsRepository;
+import com.example.autolog.infrastructure.persistance.jpa.PartJpaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,12 @@ import java.util.List;
 public class PartsService {
 
     @Autowired
-    PartsRepository partsRepository;
+    PartJpaRepository partJpaRepository;
 
 
     public ResponseEntity<Object> savePart(@RequestBody @Valid SavePartRequest partsRecordDTO) {
 
-        partsRepository.findByPartNumber(partsRecordDTO.partNumber())
+        partJpaRepository.findByPartNumber(partsRecordDTO.partNumber())
                 .ifPresent(part -> {
                     throw new PartAlreadyExistsException("Part Number " + partsRecordDTO.partNumber() + " already exists.");
                 });
@@ -36,19 +36,19 @@ public class PartsService {
         PartEntity partsModel = new PartEntity();
         BeanUtils.copyProperties(partsRecordDTO, partsModel);
 
-        PartEntity savedPart = partsRepository.save(partsModel);
+        PartEntity savedPart = partJpaRepository.save(partsModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPart);
     }
 
 
     public ResponseEntity<List<PartEntity>> getAllParts() {
-        List<PartEntity> parts = partsRepository.findAll();
+        List<PartEntity> parts = partJpaRepository.findAll();
         return ResponseEntity.ok(parts);
     }
 
 
     public ResponseEntity<Object> getPartById(@PathVariable Long id) {
-        PartEntity part = partsRepository.findById(id)
+        PartEntity part = partJpaRepository.findById(id)
                 .orElseThrow(() -> new PartNotFoundException("Part with ID " + id + " Not found"));
 
         return ResponseEntity.ok(part);
@@ -56,22 +56,22 @@ public class PartsService {
 
 
     public ResponseEntity<Object> updatePart(@PathVariable Long id, @RequestBody @Valid SavePartRequest partsRecordDTO) {
-        PartEntity existingPart = partsRepository.findById(id)
+        PartEntity existingPart = partJpaRepository.findById(id)
                 .orElseThrow(() -> new PartNotFoundException("Part with ID " + id + " Not found"));
 
         BeanUtils.copyProperties(partsRecordDTO, existingPart, "idPart");
 
-        PartEntity updatedPart = partsRepository.save(existingPart);
+        PartEntity updatedPart = partJpaRepository.save(existingPart);
 
         return ResponseEntity.ok(updatedPart);
     }
 
 
     public ResponseEntity<Object> deletePart(@PathVariable Long id) {
-        PartEntity part = partsRepository.findById(id)
+        PartEntity part = partJpaRepository.findById(id)
                 .orElseThrow(() -> new PartNotFoundException("Part with ID " + id + " Not found"));
 
-        partsRepository.delete(part);
+        partJpaRepository.delete(part);
         return ResponseEntity.ok("Part deleted successfully.");
     }
 

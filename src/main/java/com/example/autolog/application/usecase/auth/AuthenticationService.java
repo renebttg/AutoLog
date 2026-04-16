@@ -1,5 +1,7 @@
-package com.example.autolog.infrastructure.service;
+package com.example.autolog.application.usecase.auth;
 
+import com.example.autolog.infrastructure.mail.EmailService;
+import com.example.autolog.infrastructure.security.token.TokenService;
 import com.example.autolog.presentation.response.LoginResponse;
 import com.example.autolog.presentation.request.UserLoginRquest;
 import com.example.autolog.presentation.request.RegisterWorkshopRequest;
@@ -7,7 +9,7 @@ import com.example.autolog.domain.enums.TrustedAdminDomains;
 import com.example.autolog.domain.enums.UserRole;
 import com.example.autolog.domain.exception.AuthenticationException;
 import com.example.autolog.infrastructure.persistance.entity.UserEntity;
-import com.example.autolog.domain.repository.UserRepository;
+import com.example.autolog.infrastructure.persistance.jpa.UserJpaRepository;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeanUtils;
@@ -34,7 +36,7 @@ public class AuthenticationService {
     private TokenService tokenService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userJpaRepository;
 
     @Autowired
     private EmailService emailService;
@@ -44,7 +46,7 @@ public class AuthenticationService {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userLoginRecordDTO.email(), userLoginRecordDTO.password()));
 
-            UserEntity user = userRepository.findByEmail(userLoginRecordDTO.email());
+            UserEntity user = userJpaRepository.findByEmail(userLoginRecordDTO.email());
             String token = tokenService.generateToken(user);
             LoginResponse responseDTO = new LoginResponse(token);
             return ResponseEntity.ok(responseDTO);
@@ -55,11 +57,11 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<Object> register(RegisterWorkshopRequest registerWorkshopRequest) {
-        if (userRepository.findByEmail(registerWorkshopRequest.email()) != null) {
+        if (userJpaRepository.findByEmail(registerWorkshopRequest.email()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already in use");
         }
 
-        if (userRepository.findByCnpj(registerWorkshopRequest.cnpj()) != null) {
+        if (userJpaRepository.findByCnpj(registerWorkshopRequest.cnpj()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CNPJ already in use");
         }
 
@@ -69,7 +71,7 @@ public class AuthenticationService {
         newUser.setRole(UserRole.USER);
         newUser.setPassword(encryptedPassword);
 
-        userRepository.save(newUser);
+        userJpaRepository.save(newUser);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
@@ -79,7 +81,7 @@ public class AuthenticationService {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unauthorized email domain for admin creation");
         }
 
-        if (userRepository.findByEmail(registerWorkshopRequest.email()) != null) {
+        if (userJpaRepository.findByEmail(registerWorkshopRequest.email()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already in use");
         }
 
@@ -89,12 +91,12 @@ public class AuthenticationService {
         newAdmin.setRole(UserRole.ADMIN);
         newAdmin.setPassword(encryptedPassword);
 
-        userRepository.save(newAdmin);
+        userJpaRepository.save(newAdmin);
         return ResponseEntity.status(HttpStatus.CREATED).body("Admin registered successfully");
     }
 
     public ResponseEntity<Object> forgotPassword(String email, HttpServletRequest request) throws MessagingException, IOException {
-        UserEntity user = userRepository.findByEmail(email);
+        UserEntity user = userJpaRepository.findByEmail(email);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
@@ -116,7 +118,7 @@ public class AuthenticationService {
         }
 
         String email = tokenService.extractEmailFromToken(token);
-        UserEntity user = userRepository.findByEmail(email);
+        UserEntity user = userJpaRepository.findByEmail(email);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
@@ -124,7 +126,7 @@ public class AuthenticationService {
         String encryptedPassword = new BCryptPasswordEncoder().encode(newPassword);
         user.setPassword(encryptedPassword);
 
-        userRepository.save(user);
+        userJpaRepository.save(user);
 
         return ResponseEntity.ok("Password has been reset successfully");
     }

@@ -1,11 +1,11 @@
-package com.example.autolog.infrastructure.service;
+package com.example.autolog.application.usecase.workshop;
 
 import com.example.autolog.presentation.request.RegisterWorkshopRequest;
 import com.example.autolog.presentation.response.WorkshopResponse;
 import com.example.autolog.domain.exception.AccessDeniedException;
 import com.example.autolog.domain.exception.UserNotFoundException;
 import com.example.autolog.infrastructure.persistance.entity.UserEntity;
-import com.example.autolog.domain.repository.UserRepository;
+import com.example.autolog.infrastructure.persistance.jpa.UserJpaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    UserJpaRepository userJpaRepository;
 
     public ResponseEntity<WorkshopResponse> getAuthenticatedUser(@AuthenticationPrincipal UserEntity user) {
         if (user == null) {
@@ -48,7 +48,7 @@ public class UserService {
                 .findFirst()
                 .orElseThrow(() -> new AccessDeniedException("Unauthorized access to user information."));
 
-        List<UserEntity> allUsers = Optional.of(userRepository.findAll())
+        List<UserEntity> allUsers = Optional.of(userJpaRepository.findAll())
                 .filter(users -> !users.isEmpty())
                 .orElseThrow(() -> new UserNotFoundException("No users found in the database."));
 
@@ -59,7 +59,7 @@ public class UserService {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (authenticatedUser.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            UserEntity user = userRepository.findById(id)
+            UserEntity user = userJpaRepository.findById(id)
                     .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
 
             return ResponseEntity.status(HttpStatus.OK).body(user);
@@ -70,7 +70,7 @@ public class UserService {
                 throw new AccessDeniedException("Unauthorized access to user information.");
             }
 
-            UserEntity user = userRepository.findById(id)
+            UserEntity user = userJpaRepository.findById(id)
                     .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
 
             return ResponseEntity.status(HttpStatus.OK).body(user);
@@ -81,7 +81,7 @@ public class UserService {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (authenticatedUser.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            UserEntity userEntity = userRepository.findById(id)
+            UserEntity userEntity = userJpaRepository.findById(id)
                     .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
 
             BeanUtils.copyProperties(registerWorkshopRequest, userEntity);
@@ -91,7 +91,7 @@ public class UserService {
                 userEntity.setPassword(encryptedPassword);
             }
 
-            UserEntity updatedUser = userRepository.save(userEntity);
+            UserEntity updatedUser = userJpaRepository.save(userEntity);
             return ResponseEntity.ok(updatedUser);
 
         } else {
@@ -100,7 +100,7 @@ public class UserService {
                 throw new AccessDeniedException("Unauthorized access to update user information.");
             }
 
-            UserEntity userEntity = userRepository.findById(id)
+            UserEntity userEntity = userJpaRepository.findById(id)
                     .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
 
             BeanUtils.copyProperties(registerWorkshopRequest, userEntity);
@@ -110,7 +110,7 @@ public class UserService {
                 userEntity.setPassword(encryptedPassword);
             }
 
-            UserEntity updatedUser = userRepository.save(userEntity);
+            UserEntity updatedUser = userJpaRepository.save(userEntity);
             return ResponseEntity.ok(updatedUser);
         }
     }
@@ -119,10 +119,10 @@ public class UserService {
         UserDetails authenticatedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (authenticatedUser.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            UserEntity userEntity = userRepository.findById(id)
+            UserEntity userEntity = userJpaRepository.findById(id)
                     .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
 
-            userRepository.delete(userEntity);
+            userJpaRepository.delete(userEntity);
             return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully");
 
         } else {
@@ -131,10 +131,10 @@ public class UserService {
                 throw new AccessDeniedException("Unauthorized access to delete user account.");
             }
 
-            UserEntity userEntity = userRepository.findById(id)
+            UserEntity userEntity = userJpaRepository.findById(id)
                     .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
 
-            userRepository.delete(userEntity);
+            userJpaRepository.delete(userEntity);
             return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully");
         }
     }

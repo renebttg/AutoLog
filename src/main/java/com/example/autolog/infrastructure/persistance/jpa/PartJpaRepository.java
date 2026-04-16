@@ -1,4 +1,4 @@
-package com.example.autolog.domain.repository;
+package com.example.autolog.infrastructure.persistance.jpa;
 
 import com.example.autolog.infrastructure.persistance.entity.PartEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PartsRepository extends JpaRepository<PartEntity, Long> {
+public interface PartJpaRepository extends JpaRepository<PartEntity, Long> {
 
     Optional<PartEntity> findByPartNumber(String partNumber);
     List<PartEntity> findByNameContainingIgnoreCase(String name);

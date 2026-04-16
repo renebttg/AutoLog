@@ -1,4 +1,4 @@
-package com.example.autolog.infrastructure.service;
+package com.example.autolog.infrastructure.mail;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

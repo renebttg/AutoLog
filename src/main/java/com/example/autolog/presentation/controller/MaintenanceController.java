@@ -1,7 +1,7 @@
 package com.example.autolog.presentation.controller;
 
 import com.example.autolog.presentation.request.SaveMaintenanceRequest;
-import com.example.autolog.infrastructure.service.MaintenanceService;
+import com.example.autolog.application.usecase.maintenance.MaintenanceService;
 import jakarta.validation.Valid;;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

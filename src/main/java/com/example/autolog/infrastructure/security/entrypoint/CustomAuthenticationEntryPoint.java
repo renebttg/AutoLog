@@ -1,4 +1,4 @@
-package com.example.autolog.infrastructure.security;
+package com.example.autolog.infrastructure.security.entrypoint;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

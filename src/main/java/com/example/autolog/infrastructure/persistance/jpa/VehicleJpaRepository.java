@@ -1,4 +1,4 @@
-package com.example.autolog.domain.repository;
+package com.example.autolog.infrastructure.persistance.jpa;
 
 import com.example.autolog.infrastructure.persistance.entity.VehicleEntity;
 import com.example.autolog.infrastructure.persistance.entity.UserEntity;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface CarRepository extends JpaRepository<VehicleEntity, Long> {
+public interface VehicleJpaRepository extends JpaRepository<VehicleEntity, Long> {
     @Query("SELECT c FROM CarModel c WHERE c.user = :user")
     List<VehicleEntity> findByUser(UserEntity user);
     @Query("SELECT c FROM CarModel c WHERE c.user = :user AND c.idCar = :carId")

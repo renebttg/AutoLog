@@ -3,7 +3,7 @@ package com.example.autolog.presentation.controller;
 import com.example.autolog.presentation.request.RegisterWorkshopRequest;
 import com.example.autolog.presentation.response.WorkshopResponse;
 import com.example.autolog.infrastructure.persistance.entity.UserEntity;
-import com.example.autolog.infrastructure.service.UserService;
+import com.example.autolog.application.usecase.workshop.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

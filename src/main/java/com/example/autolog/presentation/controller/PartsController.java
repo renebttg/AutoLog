@@ -2,7 +2,7 @@ package com.example.autolog.presentation.controller;
 
 import com.example.autolog.presentation.request.SavePartRequest;
 import com.example.autolog.infrastructure.persistance.entity.PartEntity;
-import com.example.autolog.infrastructure.service.PartsService;
+import com.example.autolog.application.usecase.part.PartsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

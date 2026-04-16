@@ -1,5 +1,7 @@
-package com.example.autolog.infrastructure.security;
+package com.example.autolog.infrastructure.security.config;
 
+import com.example.autolog.infrastructure.security.entrypoint.CustomAuthenticationEntryPoint;
+import com.example.autolog.infrastructure.security.filter.SecurityFilter;
 import com.example.autolog.presentation.handler.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
