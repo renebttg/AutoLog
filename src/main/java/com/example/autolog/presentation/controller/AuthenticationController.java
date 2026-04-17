@@ -1,8 +1,8 @@
 package com.example.autolog.presentation.controller;
 
 
-import com.example.autolog.presentation.request.UserLoginRquest;
-import com.example.autolog.presentation.request.RegisterWorkshopRequest;
+import com.example.autolog.presentation.request.LoginRequest;
+import com.example.autolog.presentation.request.workshop.RegisterWorkshopRequest;
 import com.example.autolog.application.usecase.auth.AuthenticationService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@Valid @RequestBody UserLoginRquest userLoginRecordDTO) {
+    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest userLoginRecordDTO) {
         return authenticationService.login(userLoginRecordDTO);
     }
 

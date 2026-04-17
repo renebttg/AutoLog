@@ -3,7 +3,8 @@ package com.example.autolog.domain.enums;
 public enum UserRole {
 
     ADMIN("admin"),
-    USER("user");
+    OWNER("employee"),
+    EMPLOYEE("employee");
 
     private String role;
 

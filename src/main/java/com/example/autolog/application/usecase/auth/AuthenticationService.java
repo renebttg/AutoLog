@@ -2,14 +2,14 @@ package com.example.autolog.application.usecase.auth;
 
 import com.example.autolog.infrastructure.mail.EmailService;
 import com.example.autolog.infrastructure.security.token.TokenService;
-import com.example.autolog.presentation.response.LoginResponse;
-import com.example.autolog.presentation.request.UserLoginRquest;
-import com.example.autolog.presentation.request.RegisterWorkshopRequest;
+import com.example.autolog.presentation.response.auth.LoginResponse;
+import com.example.autolog.presentation.request.LoginRequest;
+import com.example.autolog.presentation.request.workshop.RegisterWorkshopRequest;
 import com.example.autolog.domain.enums.TrustedAdminDomains;
 import com.example.autolog.domain.enums.UserRole;
 import com.example.autolog.domain.exception.AuthenticationException;
-import com.example.autolog.infrastructure.persistance.entity.UserEntity;
-import com.example.autolog.infrastructure.persistance.jpa.UserJpaRepository;
+import com.example.autolog.infrastructure.persistence.entity.UserEntity;
+import com.example.autolog.infrastructure.persistence.jpa.UserJpaRepository;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeanUtils;
@@ -41,7 +41,7 @@ public class AuthenticationService {
     @Autowired
     private EmailService emailService;
 
-    public ResponseEntity<Object> login(UserLoginRquest userLoginRecordDTO) {
+    public ResponseEntity<Object> login(LoginRequest userLoginRecordDTO) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userLoginRecordDTO.email(), userLoginRecordDTO.password()));

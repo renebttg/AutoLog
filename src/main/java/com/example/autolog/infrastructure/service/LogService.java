@@ -1,6 +1,6 @@
 package com.example.autolog.infrastructure.service;
 
-import com.example.autolog.infrastructure.persistance.entity.LogModel;
+import com.example.autolog.infrastructure.persistence.entity.AuditLogEntity;
 import com.example.autolog.domain.repository.LogRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +25,7 @@ public class LogService {
             ObjectMapper mapper = new ObjectMapper();
             mapper.findAndRegisterModules();
 
-            LogModel log = new LogModel();
+            AuditLogEntity log = new AuditLogEntity();
             log.setEntity(entity);
             log.setAction(action);
             log.setUser(user);
@@ -43,11 +43,11 @@ public class LogService {
 
     }
 
-    public List<LogModel> getAllLogs() {
+    public List<AuditLogEntity> getAllLogs() {
         return logRepository.findAll();
     }
 
-    public List<LogModel> getLogsByEntity(String entity) {
+    public List<AuditLogEntity> getLogsByEntity(String entity) {
         return logRepository.findByEntity(entity);
     }
 

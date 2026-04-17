@@ -1,6 +1,6 @@
 package com.example.autolog.infrastructure.security.filter;
 
-import com.example.autolog.infrastructure.persistance.jpa.UserJpaRepository;
+import com.example.autolog.infrastructure.persistence.jpa.UserJpaRepository;
 import com.example.autolog.infrastructure.security.token.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

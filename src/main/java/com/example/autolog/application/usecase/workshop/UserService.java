@@ -1,11 +1,11 @@
 package com.example.autolog.application.usecase.workshop;
 
-import com.example.autolog.presentation.request.RegisterWorkshopRequest;
-import com.example.autolog.presentation.response.WorkshopResponse;
+import com.example.autolog.presentation.request.workshop.RegisterWorkshopRequest;
+import com.example.autolog.presentation.response.workshop.WorkshopResponse;
 import com.example.autolog.domain.exception.AccessDeniedException;
 import com.example.autolog.domain.exception.UserNotFoundException;
-import com.example.autolog.infrastructure.persistance.entity.UserEntity;
-import com.example.autolog.infrastructure.persistance.jpa.UserJpaRepository;
+import com.example.autolog.infrastructure.persistence.entity.UserEntity;
+import com.example.autolog.infrastructure.persistence.jpa.UserJpaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

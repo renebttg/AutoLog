@@ -1,6 +1,6 @@
 package com.example.autolog.application.usecase.auth;
 
-import com.example.autolog.infrastructure.persistance.jpa.UserJpaRepository;
+import com.example.autolog.infrastructure.persistence.jpa.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
