@@ -1,7 +1,7 @@
 package com.example.autolog.infrastructure.security.filter;
 
 import com.example.autolog.infrastructure.persistence.jpa.UserJpaRepository;
-import com.example.autolog.infrastructure.security.token.TokenService;
+import com.example.autolog.domain.service.TokenServiceOld;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ import java.io.IOException;
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
-    TokenService tokenService;
+    TokenServiceOld tokenServiceOld;
 
     @Autowired
     UserJpaRepository userJpaRepository;
@@ -32,7 +32,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
         if(token != null){
-            var login = tokenService.validateToken(token);
+            var login = tokenServiceOld.validateToken(token);
             UserDetails user = userJpaRepository.findByEmail(login);
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

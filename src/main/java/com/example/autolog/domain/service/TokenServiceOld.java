@@ -1,4 +1,4 @@
-package com.example.autolog.infrastructure.security.token;
+package com.example.autolog.domain.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -17,7 +17,7 @@ import java.time.ZoneOffset;
  */
 
 @Service
-public class TokenService {
+public class TokenServiceOld {
 
     @Value("${api.security.token.secret}")
     private String secret;

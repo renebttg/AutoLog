@@ -1,7 +1,7 @@
 package com.example.autolog.application.usecase.auth;
 
 import com.example.autolog.infrastructure.mail.EmailService;
-import com.example.autolog.infrastructure.security.token.TokenService;
+import com.example.autolog.domain.service.TokenServiceOld;
 import com.example.autolog.presentation.response.auth.LoginResponse;
 import com.example.autolog.presentation.request.LoginRequest;
 import com.example.autolog.presentation.request.workshop.RegisterWorkshopRequest;
@@ -33,7 +33,7 @@ public class AuthenticationService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private TokenService tokenService;
+    private TokenServiceOld tokenServiceOld;
 
     @Autowired
     private UserJpaRepository userJpaRepository;
@@ -47,7 +47,7 @@ public class AuthenticationService {
                     new UsernamePasswordAuthenticationToken(userLoginRecordDTO.email(), userLoginRecordDTO.password()));
 
             UserEntity user = userJpaRepository.findByEmail(userLoginRecordDTO.email());
-            String token = tokenService.generateToken(user);
+            String token = tokenServiceOld.generateToken(user);
             LoginResponse responseDTO = new LoginResponse(token);
             return ResponseEntity.ok(responseDTO);
 
@@ -101,7 +101,7 @@ public class AuthenticationService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 
-        String resetToken = tokenService.passwordResetToken(user);
+        String resetToken = tokenServiceOld.passwordResetToken(user);
 
         String resetUrl = request.getRequestURL().toString().replace(request.getRequestURI(), "")
                 + "/auth/reset-password?token=" + resetToken;
@@ -112,12 +112,12 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<Object> resetPassword(String token, String newPassword) {
-        boolean isValidToken = tokenService.validateResetToken(token);
+        boolean isValidToken = tokenServiceOld.validateResetToken(token);
         if (!isValidToken) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
         }
 
-        String email = tokenService.extractEmailFromToken(token);
+        String email = tokenServiceOld.extractEmailFromToken(token);
         UserEntity user = userJpaRepository.findByEmail(email);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
@@ -132,7 +132,7 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<Object> showResetPasswordPage(String token) {
-        boolean isValidToken = tokenService.validateResetToken(token);
+        boolean isValidToken = tokenServiceOld.validateResetToken(token);
 
         if (!isValidToken) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token");
