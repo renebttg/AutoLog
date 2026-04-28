@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 /**
  * @author Rene
  */
+
 @Service
 @RequiredArgsConstructor
 public class LoginUseCase {
@@ -34,7 +35,7 @@ public class LoginUseCase {
             throw new BusinessException("Invalid email or password");
         }
 
-        String token = tokenService.generateToken(user);
+        String token = tokenService.generateAccessToken(user);
 
         return new LoginResponse(
                 token,

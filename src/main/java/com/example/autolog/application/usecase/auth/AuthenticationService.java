@@ -1,7 +1,6 @@
 package com.example.autolog.application.usecase.auth;
 
 import com.example.autolog.infrastructure.mail.EmailService;
-import com.example.autolog.domain.service.TokenServiceOld;
 import com.example.autolog.presentation.response.auth.LoginResponse;
 import com.example.autolog.presentation.request.LoginRequest;
 import com.example.autolog.presentation.request.workshop.RegisterWorkshopRequest;
