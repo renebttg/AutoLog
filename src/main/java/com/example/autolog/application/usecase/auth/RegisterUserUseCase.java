@@ -7,6 +7,7 @@ import com.example.autolog.domain.repository.UserRepository;
 import com.example.autolog.domain.repository.WorkshopRepository;
 import com.example.autolog.infrastructure.persistence.entity.UserEntity;
 import com.example.autolog.infrastructure.persistence.entity.WorkshopEntity;
+import com.example.autolog.infrastructure.security.service.AuthenticatedUserService;
 import com.example.autolog.presentation.request.user.RegisterUserRequest;
 import com.example.autolog.presentation.response.user.UserResponse;
 import jakarta.transaction.Transactional;
@@ -22,14 +23,14 @@ import org.springframework.stereotype.Service;
 public class RegisterUserUseCase {
 
     private final UserRepository userRepository;
-    private final WorkshopRepository workshopRepository;
+    private final AuthenticatedUserService authenticatedUserService;
     private final PasswordEncoder passwordEncoder;
     private final AuthMapper authMapper;
 
     @Transactional
-    public UserResponse execute(Long workshopId, RegisterUserRequest request) {
-        WorkshopEntity workshop = workshopRepository.findById(workshopId)
-                .orElseThrow(() -> new BusinessException("Workshop not found"));
+    public UserResponse execute(RegisterUserRequest request) {
+        UserEntity currentUser = authenticatedUserService.getCurrentUser();
+        WorkshopEntity workshop = currentUser.getWorkshop();
 
         if (userRepository.existsByEmail(request.email())) {
             throw new BusinessException("A user with this email already exists");

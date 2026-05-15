@@ -51,7 +51,7 @@ public class VehicleEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "workshop_id", nullable = false)
-    private UserEntity workshop;
+    private WorkshopEntity workshop;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
